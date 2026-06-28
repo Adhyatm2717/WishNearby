@@ -5,6 +5,7 @@ import { MiniMapPanel } from "@/components/map/mini-map-panel";
 import { OnboardingGuard } from "@/components/experience/onboarding-guard";
 import { useExperience } from "@/contexts/experience-context";
 import { AddNeedModal } from "@/components/needs/add-need-modal";
+import { LaunchCelebrationModal } from "@/components/needs/launch-celebration-modal";
 
 function AppShell({ children }: { children: React.ReactNode }) {
   const { mode } = useExperience();
@@ -25,6 +26,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
       </main>
       <MobileNav />
       <AddNeedModal />
+      <LaunchCelebrationModal />
     </div>
   );
 }
