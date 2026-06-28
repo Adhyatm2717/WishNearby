@@ -197,7 +197,7 @@ CREATE TRIGGER on_comment_insert AFTER INSERT ON comments FOR EACH ROW EXECUTE F
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO profiles (id, email, full_name, avatar_url)
+  INSERT INTO public.profiles (id, email, full_name, avatar_url)
   VALUES (
     NEW.id,
     NEW.email,
