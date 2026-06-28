@@ -67,6 +67,9 @@ CREATE TABLE needs (
   status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'fulfilled', 'archived')),
   business_stage INTEGER CHECK (business_stage BETWEEN 1 AND 4),
   entrepreneur_id UUID REFERENCES profiles(id),
+  is_anonymous BOOLEAN DEFAULT FALSE,
+  anonymous_name TEXT,
+  anonymous_avatar_svg TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

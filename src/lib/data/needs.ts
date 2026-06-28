@@ -165,6 +165,9 @@ export async function createNeed(data: Partial<Need>): Promise<Need> {
         support_count: 0,
         comment_count: 0,
         growth_rate: 5,
+        is_anonymous: data.is_anonymous ?? false,
+        anonymous_name: data.anonymous_name,
+        anonymous_avatar_svg: data.anonymous_avatar_svg,
       })
       .select("*, author:profiles!author_id(*)")
       .single();
