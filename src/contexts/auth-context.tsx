@@ -308,8 +308,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       const { error } = await supabase
         .from("profiles")
-        .update(dbUpdates)
-        .eq("id", user.id);
+        .upsert({
+          id: user.id,
+          email: user.email,
+          ...dbUpdates,
+        });
 
       if (error) {
         toast.error("Failed to update profile in database");
