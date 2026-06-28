@@ -44,7 +44,7 @@ export async function getNeeds(filters: NeedFilters = {}): Promise<Need[]> {
     const supabase = await createClient();
     let query = supabase
       .from("needs")
-      .select("*, author:profiles(*)");
+      .select("*, author:profiles!author_id(*)");
 
     if (filters.category) {
       query = query.eq("category", filters.category);
@@ -127,7 +127,7 @@ export async function getNeedById(id: string): Promise<Need | null> {
     const supabase = await createClient();
     const { data: need, error } = await supabase
       .from("needs")
-      .select("*, author:profiles(*)")
+      .select("*, author:profiles!author_id(*)")
       .eq("id", id)
       .single();
 
@@ -166,7 +166,7 @@ export async function createNeed(data: Partial<Need>): Promise<Need> {
         comment_count: 0,
         growth_rate: 5,
       })
-      .select("*, author:profiles(*)")
+      .select("*, author:profiles!author_id(*)")
       .single();
 
     if (error) {
@@ -206,7 +206,7 @@ export async function getSimilarNeeds(need: Need, limit = 4): Promise<Need[]> {
     const supabase = await createClient();
     const { data: needs, error } = await supabase
       .from("needs")
-      .select("*, author:profiles(*)")
+      .select("*, author:profiles!author_id(*)")
       .eq("category", need.category)
       .eq("status", "active")
       .neq("id", need.id)
@@ -232,7 +232,7 @@ export async function getComments(needId: string): Promise<Comment[]> {
     const supabase = await createClient();
     const { data: comments, error } = await supabase
       .from("comments")
-      .select("*, author:profiles(*)")
+      .select("*, author:profiles!user_id(*)")
       .eq("need_id", needId)
       .order("created_at", { ascending: false });
 
@@ -269,7 +269,7 @@ export async function getEntrepreneurOpportunities(): Promise<Need[]> {
     const supabase = await createClient();
     const { data: needs, error } = await supabase
       .from("needs")
-      .select("*, author:profiles(*)")
+      .select("*, author:profiles!author_id(*)")
       .eq("status", "active")
       .is("business_stage", null)
       .order("support_count", { ascending: false });
