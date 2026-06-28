@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useAuth } from "@/contexts/auth-context";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -43,6 +44,7 @@ function getPotentialLabel(score: number): { label: string; variant: "success" |
 }
 
 export default function EntrepreneurPage() {
+  const { user } = useAuth();
   const [opportunities, setOpportunities] = useState<Need[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -91,7 +93,25 @@ export default function EntrepreneurPage() {
     });
     if (res.ok) {
       toast.success("Interest registered! Supporters will be notified when you launch.");
+      if (user) {
+        setOpportunities((prev) =>
+          prev.map((n) => (n.id === needId ? { ...n, entrepreneur_id: user.id, business_stage: 1 } : n))
+        );
+      }
+    }
+  };
+
+  const handleLaunch = async (needId: string) => {
+    const res = await fetch("/api/entrepreneur/launch", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ need_id: needId }),
+    });
+    if (res.ok) {
+      toast.success("Congratulations! The business has been marked as officially launched.");
       setOpportunities((prev) => prev.filter((n) => n.id !== needId));
+    } else {
+      toast.error("Failed to launch business");
     }
   };
 
@@ -236,6 +256,20 @@ export default function EntrepreneurPage() {
                               <span className="text-[10px] font-bold text-gold bg-gold/10 px-2 py-0.5 rounded-full border border-gold/15">
                                 Demand Score: {need.score}%
                               </span>
+                              
+                              {/* Claim / Launch Status Badges */}
+                              {need.entrepreneur_id && (
+                                <span className={cn(
+                                  "text-[10px] font-bold px-2.5 py-0.5 rounded-full border",
+                                  need.entrepreneur_id === user?.id
+                                    ? "text-blue-500 bg-blue-50/50 border-blue-200/60 dark:bg-blue-950/20 dark:border-blue-800/40"
+                                    : "text-blue-500 bg-blue-50/50 border-blue-200/60 dark:bg-blue-950/20 dark:border-blue-800/40"
+                                )}>
+                                  {need.entrepreneur_id === user?.id 
+                                    ? "You are launching this! 🚀" 
+                                    : "Someone is interested"}
+                                </span>
+                              )}
                             </div>
                             <Link href={`/needs/${need.id}`}>
                               <h3 className="font-bold text-base sm:text-lg hover:text-primary transition-colors tracking-tight leading-snug">
@@ -274,9 +308,31 @@ export default function EntrepreneurPage() {
 
                         {/* Action buttons */}
                         <div className="flex gap-2">
-                          <Button variant="success" className="flex-1 rounded-xl text-xs font-bold py-2 shadow-soft" onClick={() => handleClaim(need.id)}>
-                            Register Launch Interest
-                          </Button>
+                          {need.entrepreneur_id === user?.id ? (
+                            <Button 
+                              variant="primary" 
+                              className="flex-1 rounded-xl text-xs font-bold py-2 shadow-soft bg-emerald-600 hover:bg-emerald-700 text-white border-none" 
+                              onClick={() => handleLaunch(need.id)}
+                            >
+                              Have you started this? (Mark as Launched)
+                            </Button>
+                          ) : need.entrepreneur_id ? (
+                            <Button 
+                              variant="outline" 
+                              className="flex-1 rounded-xl text-xs font-bold py-2 cursor-not-allowed opacity-60" 
+                              disabled
+                            >
+                              Someone is launching this
+                            </Button>
+                          ) : (
+                            <Button 
+                              variant="success" 
+                              className="flex-1 rounded-xl text-xs font-bold py-2 shadow-soft" 
+                              onClick={() => handleClaim(need.id)}
+                            >
+                              Register Launch Interest
+                            </Button>
+                          )}
                           <Link href={`/needs/${need.id}`} className="flex-1">
                             <Button variant="secondary" className="w-full rounded-xl text-xs font-bold py-2 gap-1">
                               <MessageCircle className="h-4 w-4" /> Discussion

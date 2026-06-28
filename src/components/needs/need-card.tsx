@@ -181,9 +181,14 @@ export function NeedCard({ need, index = 0, compact = false }: NeedCardProps) {
                   <TrendingUp className="h-2.5 w-2.5" /> Trending
                 </Badge>
               )}
-              {need.business_stage && (
-                <Badge variant="success" className="text-[10px] py-0.5">
-                  Opportunity Stage {need.business_stage}/4
+              {need.business_stage && need.business_stage < 4 && (
+                <Badge variant="outline" className="text-[10px] py-0.5 bg-blue-50/60 text-blue-600 border-blue-200 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-800/40 font-bold">
+                  Opening Soon 🚀
+                </Badge>
+              )}
+              {need.business_stage === 4 && (
+                <Badge variant="success" className="text-[10px] py-0.5 font-bold">
+                  Launched 🎉
                 </Badge>
               )}
             </div>

@@ -44,7 +44,8 @@ export async function getNeeds(filters: NeedFilters = {}): Promise<Need[]> {
     const supabase = await createClient();
     let query = supabase
       .from("needs")
-      .select("*, author:profiles!author_id(*)");
+      .select("*, author:profiles!author_id(*)")
+      .eq("status", "active");
 
     if (filters.category) {
       query = query.eq("category", filters.category);
@@ -274,7 +275,6 @@ export async function getEntrepreneurOpportunities(): Promise<Need[]> {
       .from("needs")
       .select("*, author:profiles!author_id(*)")
       .eq("status", "active")
-      .is("business_stage", null)
       .order("support_count", { ascending: false });
 
     if (error) return [];
