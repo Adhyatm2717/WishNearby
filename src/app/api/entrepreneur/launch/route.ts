@@ -25,7 +25,8 @@ export async function POST(request: NextRequest) {
         .from("needs")
         .update({
           status: "fulfilled",
-          business_stage: 4
+          business_stage: 4,
+          updated_at: new Date().toISOString() // Explicitly set to launch time!
         })
         .eq("id", need_id)
         .eq("entrepreneur_id", user.id) // Ensure only the claiming entrepreneur can launch it!

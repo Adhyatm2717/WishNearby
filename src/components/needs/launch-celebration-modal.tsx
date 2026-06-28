@@ -16,7 +16,7 @@ export function LaunchCelebrationModal() {
   useEffect(() => {
     async function checkRecentLaunches() {
       try {
-        const res = await fetch("/api/needs/recent-launches");
+        const res = await fetch(`/api/needs/recent-launches?t=${Date.now()}`);
         if (!res.ok) return;
         const launches: Need[] = await res.json();
         
