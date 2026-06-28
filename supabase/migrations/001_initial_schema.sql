@@ -16,6 +16,14 @@ CREATE TABLE profiles (
   reputation INTEGER NOT NULL DEFAULT 0,
   is_entrepreneur BOOLEAN NOT NULL DEFAULT FALSE,
   is_admin BOOLEAN NOT NULL DEFAULT FALSE,
+  role TEXT,
+  gender TEXT,
+  avatar_style TEXT,
+  avatar_svg TEXT,
+  universe TEXT,
+  anonymous_identity TEXT,
+  anonymous_username TEXT,
+  anonymous_avatar TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
