@@ -1,4 +1,5 @@
 import type { Need, NeedFilters, Comment, Notification, BusinessClaim, AICheckResult } from "@/types";
+import { createClient } from "@/lib/supabase/server";
 import {
   MOCK_NEEDS,
   MOCK_COMMENTS,
@@ -35,6 +36,58 @@ function sortNeeds(needs: Need[], sort: NeedFilters["sort"] = "trending"): Need[
 }
 
 export async function getNeeds(filters: NeedFilters = {}): Promise<Need[]> {
+  const isSupabase = 
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) && 
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+
+  if (isSupabase) {
+    const supabase = await createClient();
+    let query = supabase
+      .from("needs")
+      .select("*, author:profiles(*)");
+
+    if (filters.category) {
+      query = query.eq("category", filters.category);
+    }
+
+    if (filters.query) {
+      query = query.or(`title.ilike.%${filters.query}%,description.ilike.%${filters.query}%,location_name.ilike.%${filters.query}%`);
+    }
+
+    // Apply sorting
+    if (filters.sort === "newest") {
+      query = query.order("created_at", { ascending: false });
+    } else if (filters.sort === "popular") {
+      query = query.order("support_count", { ascending: false });
+    } else {
+      query = query.order("support_count", { ascending: false });
+    }
+
+    const { data: needs, error } = await query;
+    if (error) {
+      console.error("Error fetching needs from Supabase:", error);
+      return [];
+    }
+
+    let result = (needs || []) as Need[];
+    if (filters.lat && filters.lng) {
+      result = result.map((n) => ({
+        ...n,
+        distance_km: haversineDistance(filters.lat!, filters.lng!, n.lat, n.lng),
+      }));
+
+      if (filters.radiusKm) {
+        result = result.filter((n) => (n.distance_km ?? 0) <= filters.radiusKm!);
+      }
+
+      if (filters.sort === "nearby") {
+        result.sort((a, b) => (a.distance_km ?? 999) - (b.distance_km ?? 999));
+      }
+    }
+
+    return result;
+  }
+
   let needs = MOCK_NEEDS.filter((n) => n.status === "active" || filters.sort === "popular");
 
   if (filters.category) {
@@ -66,11 +119,103 @@ export async function getNeeds(filters: NeedFilters = {}): Promise<Need[]> {
 }
 
 export async function getNeedById(id: string): Promise<Need | null> {
+  const isSupabase = 
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) && 
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+
+  if (isSupabase) {
+    const supabase = await createClient();
+    const { data: need, error } = await supabase
+      .from("needs")
+      .select("*, author:profiles(*)")
+      .eq("id", id)
+      .single();
+
+    if (error || !need) return null;
+    return need as Need;
+  }
+
   const need = MOCK_NEEDS.find((n) => n.id === id);
   return need ? enrichNeed(need) : null;
 }
 
+export async function createNeed(data: Partial<Need>): Promise<Need> {
+  const isSupabase = 
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) && 
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+
+  if (isSupabase) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error("Unauthorized");
+
+    const { data: need, error } = await supabase
+      .from("needs")
+      .insert({
+        title: data.title,
+        description: data.description,
+        category: data.category,
+        location_name: data.location_name,
+        lat: data.lat ?? 0,
+        lng: data.lng ?? 0,
+        price_min: data.price_min,
+        price_max: data.price_max,
+        author_id: user.id,
+        status: "active",
+        support_count: 0,
+        comment_count: 0,
+        growth_rate: 5,
+      })
+      .select("*, author:profiles(*)")
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    // Insert initial vote/support from the author
+    await supabase.from("votes").insert({
+      user_id: user.id,
+      need_id: need.id,
+    });
+
+    return { ...need, support_count: 1 } as Need;
+  } else {
+    const need = {
+      id: `need-${Date.now()}`,
+      ...data,
+      support_count: 1,
+      comment_count: 0,
+      growth_rate: 5,
+      author_id: "user-1",
+      status: "active" as const,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    } as Need;
+    MOCK_NEEDS.push(need);
+    return need;
+  }
+}
+
 export async function getSimilarNeeds(need: Need, limit = 4): Promise<Need[]> {
+  const isSupabase = 
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) && 
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+
+  if (isSupabase) {
+    const supabase = await createClient();
+    const { data: needs, error } = await supabase
+      .from("needs")
+      .select("*, author:profiles(*)")
+      .eq("category", need.category)
+      .eq("status", "active")
+      .neq("id", need.id)
+      .limit(limit);
+
+    if (error) return [];
+    return needs as Need[];
+  }
+
   return MOCK_NEEDS.filter(
     (n) => n.id !== need.id && n.category === need.category && n.status === "active"
   )
@@ -79,6 +224,22 @@ export async function getSimilarNeeds(need: Need, limit = 4): Promise<Need[]> {
 }
 
 export async function getComments(needId: string): Promise<Comment[]> {
+  const isSupabase = 
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) && 
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+
+  if (isSupabase) {
+    const supabase = await createClient();
+    const { data: comments, error } = await supabase
+      .from("comments")
+      .select("*, author:profiles(*)")
+      .eq("need_id", needId)
+      .order("created_at", { ascending: false });
+
+    if (error) return [];
+    return comments as Comment[];
+  }
+
   return MOCK_COMMENTS.filter((c) => c.need_id === needId)
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     .map(enrichComment);
@@ -100,6 +261,23 @@ export async function getBusinessClaims(): Promise<BusinessClaim[]> {
 }
 
 export async function getEntrepreneurOpportunities(): Promise<Need[]> {
+  const isSupabase = 
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) && 
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+
+  if (isSupabase) {
+    const supabase = await createClient();
+    const { data: needs, error } = await supabase
+      .from("needs")
+      .select("*, author:profiles(*)")
+      .eq("status", "active")
+      .is("business_stage", null)
+      .order("support_count", { ascending: false });
+
+    if (error) return [];
+    return (needs || []) as Need[];
+  }
+
   return sortNeeds(
     MOCK_NEEDS.filter((n) => n.status === "active" && !n.entrepreneur_id),
     "trending"

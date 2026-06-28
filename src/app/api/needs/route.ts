@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getNeeds } from "@/lib/data/needs";
+import { getNeeds, createNeed } from "@/lib/data/needs";
 import type { CategorySlug } from "@/lib/constants";
 import type { SortOption } from "@/types";
 
@@ -19,17 +19,11 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
-  const need = {
-    id: `need-${Date.now()}`,
-    ...body,
-    support_count: 1,
-    comment_count: 0,
-    growth_rate: 5,
-    author_id: "user-1",
-    status: "active" as const,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  };
-  return NextResponse.json(need, { status: 201 });
+  try {
+    const body = await request.json();
+    const need = await createNeed(body);
+    return NextResponse.json(need, { status: 201 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message || "Failed to create need" }, { status: 500 });
+  }
 }

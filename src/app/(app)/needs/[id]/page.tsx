@@ -43,17 +43,25 @@ export default function NeedDetailPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`/api/needs/${id}`).then((r) => r.json()),
-      fetch(`/api/needs/${id}/comments`).then((r) => r.json()),
+      fetch(`/api/needs/${id}`).then((r) => r.ok ? r.json() : null),
+      fetch(`/api/needs/${id}/comments`).then((r) => r.ok ? r.json() : []),
     ])
       .then(([needData, commentsData]) => {
-        setNeed(needData);
-        setComments(commentsData);
-        if (needData?.id) {
-          fetch(`/api/needs/${id}/similar`)
-            .then((r) => r.json())
-            .then(setSimilar);
+        if (needData && !needData.error) {
+          setNeed(needData);
+          setComments(commentsData || []);
+          if (needData.id) {
+            fetch(`/api/needs/${id}/similar`)
+              .then((r) => r.ok ? r.json() : [])
+              .then(setSimilar)
+              .catch(() => setSimilar([]));
+          }
+        } else {
+          setNeed(null);
         }
+      })
+      .catch(() => {
+        setNeed(null);
       })
       .finally(() => setLoading(false));
   }, [id]);
