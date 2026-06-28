@@ -21,13 +21,13 @@ export function LaunchCelebrationModal() {
         const launches: Need[] = await res.json();
         
         if (launches && launches.length > 0) {
-          // Get the most recent launch
-          const latest = launches[0];
+          // Find the first launch that has NOT been dismissed by the user yet
+          const undismissed = launches.find(
+            (need) => !localStorage.getItem(`wishnearby-dismissed-launch-${need.id}`)
+          );
           
-          // Check if the user has already dismissed this specific launch
-          const isDismissed = localStorage.getItem(`wishnearby-dismissed-launch-${latest.id}`);
-          if (!isDismissed) {
-            setRecentLaunch(latest);
+          if (undismissed) {
+            setRecentLaunch(undismissed);
             setIsOpen(true);
           }
         }
