@@ -9,6 +9,7 @@ import { NeedCard, NeedCardSkeleton } from "@/components/needs/need-card";
 import { CategoryFilter } from "@/components/needs/category-filter";
 import { SearchBar, LocationSelector } from "@/components/search/search-bar";
 import { EmptyState } from "@/components/ui/empty-state";
+import { LaunchCelebrationModal } from "@/components/needs/launch-celebration-modal";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -330,6 +331,9 @@ export default function HomePageContent() {
       >
         <PlusCircle className="h-6 w-6" />
       </button>
+
+      {/* Pop-up for recently launched businesses */}
+      <LaunchCelebrationModal />
     </div>
   );
 }
