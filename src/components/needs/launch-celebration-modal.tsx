@@ -86,7 +86,7 @@ export function LaunchCelebrationModal() {
           {/* Close Button */}
           <button
             onClick={handleDismiss}
-            className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1.5 rounded-full hover:bg-white/5"
+            className="absolute top-4 right-4 text-gold/70 hover:text-gold hover:bg-gold/10 transition-all p-1.5 rounded-full"
           >
             <X className="h-5 w-5" />
           </button>
@@ -147,7 +147,7 @@ export function LaunchCelebrationModal() {
             </Link>
             <Button
               variant="secondary"
-              className="flex-1 rounded-xl text-xs font-semibold py-2.5 border border-white/10 hover:bg-white/5 text-white"
+              className="flex-1 rounded-xl text-xs font-bold py-2.5 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5 hover:border-gold/20 transition-all"
               onClick={handleDismiss}
             >
               Close
