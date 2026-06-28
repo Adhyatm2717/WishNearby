@@ -58,13 +58,17 @@ export async function POST(request: NextRequest) {
       }
 
       // 4. Update the need's stage and entrepreneur ID
-      await supabase
+      const { error: needError } = await supabase
         .from("needs")
         .update({
           business_stage: 1,
           entrepreneur_id: user.id
         })
         .eq("id", need_id);
+
+      if (needError) {
+        return NextResponse.json({ error: needError.message }, { status: 500 });
+      }
 
       // 5. Find all users who supported ("Counted In") this need
       const { data: votes } = await supabase

@@ -165,6 +165,7 @@ CREATE POLICY "Users can insert own business claims" ON business_claims FOR INSE
 CREATE POLICY "Users can update own business claims" ON business_claims FOR UPDATE USING (auth.uid() = entrepreneur_id);
 CREATE POLICY "Badges are viewable by everyone" ON user_badges FOR SELECT USING (true);
 CREATE POLICY "Needs are viewable by everyone" ON needs FOR SELECT USING (true);
+CREATE POLICY "Entrepreneurs can claim and launch needs" ON needs FOR UPDATE USING (auth.uid() = author_id OR auth.uid() = entrepreneur_id OR entrepreneur_id IS NULL) WITH CHECK (auth.uid() = author_id OR auth.uid() = entrepreneur_id OR entrepreneur_id IS NULL);
 
 -- Authenticated write policies
 CREATE POLICY "Users can update own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
