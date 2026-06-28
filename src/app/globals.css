@@ -1,26 +1,328 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F8FAFC;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  --primary: #1E3A8A;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F1F5F9;
+  --secondary-foreground: #334155;
+  --cta: #059669;
+  --cta-foreground: #FFFFFF;
+  --gold: #D4AF37;
+  --gold-foreground: #0F172A;
+  --navy: #0F172A;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #EFF6FF;
+  --accent-foreground: #1E3A8A;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #1E3A8A;
+  --radius: 1.125rem;
+}
+
+.dark {
+  --background: #0B1120;
+  --foreground: #FFFFFF;
+  --card: #111827;
+  --card-foreground: #FFFFFF;
+  --popover: #111827;
+  --popover-foreground: #FFFFFF;
+  --primary: #3B82F6;
+  --primary-foreground: #FFFFFF;
+  --secondary: #1E293B;
+  --secondary-foreground: #CBD5E1;
+  --cta: #059669;
+  --cta-foreground: #FFFFFF;
+  --gold: #D4AF37;
+  --gold-foreground: #0F172A;
+  --navy: #0F172A;
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+  --accent: #1E3A8A;
+  --accent-foreground: #BFDBFE;
+  --destructive: #F87171;
+  --destructive-foreground: #FFFFFF;
+  --border: #1E293B;
+  --input: #1E293B;
+  --ring: #3B82F6;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-cta: var(--cta);
+  --color-cta-foreground: var(--cta-foreground);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-navy: var(--navy);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-dm-sans);
+  --font-heading: var(--font-space-grotesk);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
+  --radius-2xl: calc(var(--radius) + 12px);
+  --radius-3xl: calc(var(--radius) + 20px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@utility shadow-soft {
+  box-shadow:
+    0 1px 2px 0 rgb(15 23 42 / 0.04),
+    0 4px 16px -2px rgb(30 58 138 / 0.06);
+}
+
+@utility shadow-soft-lg {
+  box-shadow:
+    0 2px 4px -1px rgb(15 23 42 / 0.05),
+    0 12px 32px -4px rgb(30 58 138 / 0.1);
+}
+
+@utility shadow-float {
+  box-shadow:
+    0 0 0 1px rgb(15 23 42 / 0.04),
+    0 8px 40px -8px rgb(15 23 42 / 0.1),
+    0 16px 64px -16px rgb(30 58 138 / 0.08);
+}
+
+.dark .shadow-float {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.06),
+    0 8px 40px -8px rgb(0 0 0 / 0.45),
+    0 16px 64px -16px rgb(30 58 138 / 0.12);
+}
+
+@utility glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+
+.dark .glass {
+  background: rgba(17, 24, 39, 0.8);
+}
+
+@utility glass-strong {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.dark .glass-strong {
+  background: rgba(17, 24, 39, 0.92);
+}
+
+@utility bg-mesh {
+  background-color: var(--background);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 15% -5%, rgb(30 58 138 / 0.06) 0px, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 85% 5%, rgb(5 150 105 / 0.04) 0px, transparent 50%);
+}
+
+@utility gradient-text {
+  background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@utility gradient-primary {
+  background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
+}
+
+@utility gradient-cta {
+  background: linear-gradient(135deg, #047857 0%, #059669 100%);
+}
+
+@utility gradient-gold {
+  background: linear-gradient(135deg, #B8960C 0%, #D4AF37 100%);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-dm-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100dvh;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+::selection {
+  background: color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+.leaflet-container {
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  border-radius: var(--radius-xl);
+  z-index: 0;
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-count-up {
+  animation: count-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.safe-area-x {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+.pb-nav {
+  padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 768px) {
+  .pb-nav {
+    padding-bottom: 0;
+  }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.custom-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 0.35; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+.ripple-effect::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ripple-effect:active::after {
+  animation: ripple 0.45s ease-out;
+}
+
+/* Premium Map Overrides */
+.custom-marker {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.custom-marker:hover {
+  transform: scale(1.15) rotate(0deg) !important;
+  z-index: 1000 !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+  border-radius: 1.125rem !important;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid var(--border) !important;
+  padding: 4px !important;
+  overflow: hidden;
+}
+
+.leaflet-popup-tip {
+  background: var(--card) !important;
+  border-left: 1px solid var(--border) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--muted-foreground) !important;
+  padding: 8px 8px 0 0 !important;
+  font-size: 16px !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+  color: var(--foreground) !important;
+  background: transparent !important;
+}
+

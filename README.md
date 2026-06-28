@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Demandly
+
+A production-ready Progressive Web App for discovering real local community demand. Non-profit. No marketplace. No commissions.
+
+## Mission
+
+Help communities express unmet local demand. Help entrepreneurs discover genuine opportunities. Reduce business failure by validating demand before investment.
+
+## Tech Stack
+
+- **Next.js 16** (App Router, TypeScript)
+- **Tailwind CSS 4** + custom design system
+- **shadcn/ui**-style components (Radix UI)
+- **Framer Motion** for subtle animations
+- **Supabase** (Auth, PostgreSQL, Storage) — schema included
+- **Leaflet + OpenStreetMap** for interactive maps
+- **PWA** via `@ducanh2912/next-pwa`
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The app runs with rich mock data out of the box. Connect Supabase for production:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Create a Supabase project
+2. Run `supabase/migrations/001_initial_schema.sql` in the SQL editor
+3. Copy `.env.example` to `.env.local` and add your keys
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- Landing page with hero, live stats, map preview, testimonials
+- Home feed with nearby/trending/newest/popular filters
+- Category filtering (Food, Services, Education, etc.)
+- Post a Need with AI duplicate/spam detection
+- Need detail pages with supporters, comments, timeline, map
+- Full-screen demand map with heatmap and radius filter
+- Entrepreneur dashboard with business potential scoring
+- Business progress tracking (4 stages)
+- User profiles with badges and gamification
+- Push/email/SMS notification preferences
+- Admin panel for moderation and analytics
+- Dark mode support
+- Responsive mobile bottom nav + desktop sidebar
+- PWA installable on mobile and desktop
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy to Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+```
 
-## Deploy on Vercel
+Deploy via Vercel with environment variables from `.env.example`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+  app/           # Next.js App Router pages & API routes
+  components/    # UI components, layout, feature modules
+  lib/           # Utilities, data layer, Supabase clients
+  types/         # TypeScript types
+supabase/
+  migrations/    # PostgreSQL schema
+public/
+  manifest.json  # PWA manifest
+```
+
+## License
+
+Community-first non-profit platform.

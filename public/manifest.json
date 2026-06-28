@@ -1,0 +1,44 @@
+{
+  "name": "WishNearby",
+  "short_name": "WishNearby",
+  "description": "Discover real local community demand. Non-profit. No commissions.",
+  "start_url": "/home",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#1E3A8A",
+  "orientation": "portrait-primary",
+  "categories": ["social", "community", "lifestyle"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Post a Need",
+      "url": "/post",
+      "description": "Share what you wish existed nearby"
+    },
+    {
+      "name": "Explore Map",
+      "url": "/map",
+      "description": "View demand on the map"
+    }
+  ]
+}

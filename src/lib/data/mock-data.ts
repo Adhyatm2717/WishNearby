@@ -1,0 +1,313 @@
+import type { User, Need, Comment, Notification, BusinessClaim } from "@/types";
+
+export const MOCK_USERS: User[] = [
+  {
+    id: "user-1",
+    email: "rahul@example.com",
+    full_name: "Rahul Sharma",
+    avatar_url: undefined,
+    bio: "Food enthusiast from Madhya Pradesh living in Pune",
+    location: "Lohegaon, Pune",
+    reputation: 847,
+    is_entrepreneur: false,
+    is_admin: false,
+    created_at: "2025-08-15T10:00:00Z",
+  },
+  {
+    id: "user-2",
+    email: "priya@example.com",
+    full_name: "Priya Patel",
+    bio: "Local entrepreneur passionate about community needs",
+    location: "Koregaon Park, Pune",
+    reputation: 1234,
+    is_entrepreneur: true,
+    is_admin: false,
+    created_at: "2025-06-20T10:00:00Z",
+  },
+  {
+    id: "user-3",
+    email: "amit@example.com",
+    full_name: "Amit Desai",
+    bio: "Community organizer and local champion",
+    location: "Viman Nagar, Pune",
+    reputation: 562,
+    is_entrepreneur: false,
+    is_admin: false,
+    created_at: "2025-09-01T10:00:00Z",
+  },
+  {
+    id: "admin-1",
+    email: "admin@demandly.org",
+    full_name: "Demandly Admin",
+    reputation: 0,
+    is_entrepreneur: false,
+    is_admin: true,
+    created_at: "2025-01-01T10:00:00Z",
+  },
+];
+
+export const MOCK_NEEDS: Need[] = [
+  {
+    id: "need-1",
+    title: "Authentic MP-style samosa with green chutney",
+    description:
+      "Missing the authentic Madhya Pradesh style samosas with that perfect green chutney from back home. The ones here are too different — we need someone to bring the real taste to Lohegaon!",
+    category: "food",
+    location_name: "Lohegaon, Pune",
+    lat: 18.5975,
+    lng: 73.9089,
+    price_min: 15,
+    price_max: 30,
+    support_count: 186,
+    comment_count: 42,
+    growth_rate: 34,
+    author_id: "user-1",
+    status: "active",
+    created_at: "2026-01-15T08:30:00Z",
+    updated_at: "2026-06-20T14:00:00Z",
+    distance_km: 0.3,
+  },
+  {
+    id: "need-2",
+    title: "24/7 affordable laundry service",
+    description:
+      "Working professionals in Viman Nagar need a reliable 24/7 laundry pickup and delivery service. Current options are either too expensive or close too early.",
+    category: "services",
+    location_name: "Viman Nagar, Pune",
+    lat: 18.5679,
+    lng: 73.9143,
+    price_min: 50,
+    price_max: 150,
+    support_count: 94,
+    comment_count: 18,
+    growth_rate: 22,
+    author_id: "user-3",
+    status: "active",
+    created_at: "2026-02-10T11:00:00Z",
+    updated_at: "2026-06-18T09:00:00Z",
+    distance_km: 2.1,
+    business_stage: 2,
+    entrepreneur_id: "user-2",
+  },
+  {
+    id: "need-3",
+    title: "Weekend coding bootcamp for kids",
+    description:
+      "Parents in Koregaon Park want an affordable weekend coding bootcamp for children aged 8-14. Something fun, project-based, and not just theory.",
+    category: "education",
+    location_name: "Koregaon Park, Pune",
+    lat: 18.5362,
+    lng: 73.8958,
+    support_count: 67,
+    comment_count: 23,
+    growth_rate: 18,
+    author_id: "user-2",
+    status: "active",
+    created_at: "2026-03-05T14:00:00Z",
+    updated_at: "2026-06-15T16:00:00Z",
+    distance_km: 4.5,
+  },
+  {
+    id: "need-4",
+    title: "Affordable dental clinic with evening hours",
+    description:
+      "Many of us work 9-6 and can't visit dentists during the day. We need an affordable dental clinic open until 9 PM in the Lohegaon area.",
+    category: "healthcare",
+    location_name: "Lohegaon, Pune",
+    lat: 18.5998,
+    lng: 73.9121,
+    support_count: 143,
+    comment_count: 31,
+    growth_rate: 28,
+    author_id: "user-1",
+    status: "active",
+    created_at: "2026-01-28T09:00:00Z",
+    updated_at: "2026-06-22T11:00:00Z",
+    distance_km: 0.8,
+  },
+  {
+    id: "need-5",
+    title: "Shared electric scooter rental hub",
+    description:
+      "Last-mile connectivity from Lohegaon to the airport and nearby tech parks is terrible. A shared e-scooter rental hub would solve this for thousands.",
+    category: "transportation",
+    location_name: "Lohegaon, Pune",
+    lat: 18.5821,
+    lng: 73.9198,
+    support_count: 211,
+    comment_count: 56,
+    growth_rate: 45,
+    author_id: "user-3",
+    status: "active",
+    created_at: "2025-12-10T07:00:00Z",
+    updated_at: "2026-06-25T08:00:00Z",
+    distance_km: 1.2,
+    business_stage: 3,
+    entrepreneur_id: "user-2",
+  },
+  {
+    id: "need-6",
+    title: "Indoor badminton courts with hourly booking",
+    description:
+      "Badminton is huge here but finding quality indoor courts with online hourly booking is impossible. We need 4-6 courts with proper flooring.",
+    category: "sports",
+    location_name: "Wagholi, Pune",
+    lat: 18.5812,
+    lng: 73.9876,
+    support_count: 78,
+    comment_count: 15,
+    growth_rate: 12,
+    author_id: "user-3",
+    status: "active",
+    created_at: "2026-04-01T10:00:00Z",
+    updated_at: "2026-06-10T12:00:00Z",
+    distance_km: 6.3,
+  },
+  {
+    id: "need-7",
+    title: "Organic farmers market every Sunday",
+    description:
+      "We want a dedicated organic farmers market every Sunday morning where local farmers can sell directly to consumers. No middlemen, fair prices.",
+    category: "shopping",
+    location_name: "Kharadi, Pune",
+    lat: 18.5512,
+    lng: 73.9445,
+    support_count: 156,
+    comment_count: 38,
+    growth_rate: 31,
+    author_id: "user-2",
+    status: "fulfilled",
+    created_at: "2025-10-20T08:00:00Z",
+    updated_at: "2026-05-01T10:00:00Z",
+    distance_km: 5.8,
+    business_stage: 4,
+    entrepreneur_id: "user-2",
+  },
+  {
+    id: "need-8",
+    title: "Community cinema screening room",
+    description:
+      "A small community cinema room for indie films, documentaries, and local filmmaker showcases. Think 50 seats, cozy atmosphere, affordable tickets.",
+    category: "entertainment",
+    location_name: "Kalyani Nagar, Pune",
+    lat: 18.5467,
+    lng: 73.9034,
+    support_count: 45,
+    comment_count: 12,
+    growth_rate: 8,
+    author_id: "user-1",
+    status: "active",
+    created_at: "2026-05-15T16:00:00Z",
+    updated_at: "2026-06-08T14:00:00Z",
+    distance_km: 7.1,
+  },
+];
+
+export const MOCK_COMMENTS: Comment[] = [
+  {
+    id: "comment-1",
+    need_id: "need-1",
+    user_id: "user-3",
+    content: "YES! I've been craving these since I moved from Bhopal. Count me in!",
+    created_at: "2026-01-16T10:00:00Z",
+  },
+  {
+    id: "comment-2",
+    need_id: "need-1",
+    user_id: "user-2",
+    content: "My grandmother's recipe is exactly this. I might actually take this on!",
+    created_at: "2026-01-17T14:30:00Z",
+  },
+  {
+    id: "comment-3",
+    need_id: "need-1",
+    user_id: "user-1",
+    content: "186 supporters now! The demand is real. Someone please make this happen 🙏",
+    created_at: "2026-06-20T14:00:00Z",
+  },
+];
+
+export const MOCK_NOTIFICATIONS: Notification[] = [
+  {
+    id: "notif-1",
+    user_id: "user-1",
+    type: "support",
+    title: "New supporter!",
+    message: "12 people supported your samosa need today",
+    need_id: "need-1",
+    read: false,
+    created_at: "2026-06-27T08:00:00Z",
+  },
+  {
+    id: "notif-2",
+    user_id: "user-1",
+    type: "comment",
+    title: "New comment",
+    message: "Priya Patel commented on your samosa need",
+    need_id: "need-1",
+    read: false,
+    created_at: "2026-06-26T16:00:00Z",
+  },
+  {
+    id: "notif-3",
+    user_id: "user-1",
+    type: "business_open",
+    title: "Business opened nearby!",
+    message: "Organic farmers market is now open in Kharadi",
+    need_id: "need-7",
+    read: true,
+    created_at: "2026-05-01T10:00:00Z",
+  },
+  {
+    id: "notif-4",
+    user_id: "user-1",
+    type: "weekly_update",
+    title: "Weekly community update",
+    message: "3 new needs in Lohegaon this week. 1 business opened!",
+    read: true,
+    created_at: "2026-06-23T09:00:00Z",
+  },
+];
+
+export const MOCK_BUSINESS_CLAIMS: BusinessClaim[] = [
+  {
+    id: "claim-1",
+    need_id: "need-2",
+    entrepreneur_id: "user-2",
+    stage: 2,
+    estimated_investment: 150000,
+    notes: "Setting up pickup routes and equipment",
+    created_at: "2026-04-01T10:00:00Z",
+    updated_at: "2026-06-18T09:00:00Z",
+  },
+  {
+    id: "claim-2",
+    need_id: "need-5",
+    entrepreneur_id: "user-2",
+    stage: 3,
+    estimated_investment: 500000,
+    notes: "Fleet of 20 e-scooters arriving next week",
+    created_at: "2026-03-15T10:00:00Z",
+    updated_at: "2026-06-25T08:00:00Z",
+  },
+];
+
+export const CURRENT_USER_ID = "user-1";
+
+export function getMockUser(id: string): User | undefined {
+  return MOCK_USERS.find((u) => u.id === id);
+}
+
+export function enrichNeed(need: Need): Need {
+  return {
+    ...need,
+    author: getMockUser(need.author_id),
+  };
+}
+
+export function enrichComment(comment: Comment): Comment {
+  return {
+    ...comment,
+    user: getMockUser(comment.user_id),
+  };
+}
