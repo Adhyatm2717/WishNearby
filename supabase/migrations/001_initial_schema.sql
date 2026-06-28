@@ -161,6 +161,8 @@ CREATE POLICY "Needs are viewable by everyone" ON needs FOR SELECT USING (true);
 CREATE POLICY "Comments are viewable by everyone" ON comments FOR SELECT USING (true);
 CREATE POLICY "Votes are viewable by everyone" ON votes FOR SELECT USING (true);
 CREATE POLICY "Business claims are viewable by everyone" ON business_claims FOR SELECT USING (true);
+CREATE POLICY "Users can insert own business claims" ON business_claims FOR INSERT WITH CHECK (auth.uid() = entrepreneur_id);
+CREATE POLICY "Users can update own business claims" ON business_claims FOR UPDATE USING (auth.uid() = entrepreneur_id);
 CREATE POLICY "Badges are viewable by everyone" ON user_badges FOR SELECT USING (true);
 CREATE POLICY "Needs are viewable by everyone" ON needs FOR SELECT USING (true);
 

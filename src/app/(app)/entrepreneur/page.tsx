@@ -98,6 +98,8 @@ export default function EntrepreneurPage() {
           prev.map((n) => (n.id === needId ? { ...n, entrepreneur_id: user.id, business_stage: 1 } : n))
         );
       }
+    } else {
+      toast.error("Failed to register launch interest");
     }
   };
 
