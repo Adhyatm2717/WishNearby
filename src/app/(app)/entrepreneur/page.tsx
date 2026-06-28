@@ -65,7 +65,7 @@ export default function EntrepreneurPage() {
           score: calculateBusinessPotential(n.support_count, n.growth_rate, n.distance_km ?? 5),
         }))
         .sort((a, b) => b.score - a.score)
-        .slice(0, 5),
+        .slice(0, 20),
     [opportunities]
   );
 
