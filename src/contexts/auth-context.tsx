@@ -23,6 +23,29 @@ interface AuthContextValue {
   regenerateAnonymousIdentity: () => Promise<boolean>;
 }
 
+const mapProfileToUser = (profile: any): User => {
+  return {
+    id: profile.id,
+    email: profile.email,
+    full_name: profile.full_name,
+    avatar_url: profile.avatar_url,
+    bio: profile.bio,
+    location: profile.location,
+    reputation: profile.reputation || 0,
+    is_entrepreneur: profile.is_entrepreneur || false,
+    is_admin: profile.is_admin || false,
+    created_at: profile.created_at,
+    role: profile.role,
+    gender: profile.gender,
+    avatar_style: profile.avatar_style,
+    avatar_svg: profile.avatar_svg,
+    universe: profile.universe,
+    anonymous_name: profile.anonymous_identity,
+    anonymous_username: profile.anonymous_username,
+    anonymous_avatar_svg: profile.anonymous_avatar,
+  };
+};
+
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -48,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               .single();
 
             if (profile && !error) {
-              setUser(profile as User);
+              setUser(mapProfileToUser(profile));
             } else {
               // Fallback if auth exists but profile row doesn't yet
               setUser({
@@ -88,7 +111,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             .single();
 
           if (profile) {
-            setUser(profile as User);
+            setUser(mapProfileToUser(profile));
             // Write to localStorage for unified checks
             localStorage.setItem("wishnearby-onboarding-complete", profile.role ? "true" : "false");
             localStorage.setItem("wishnearby-experience", profile.role === "entrepreneur" ? "entrepreneur" : "explorer");
