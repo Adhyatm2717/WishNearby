@@ -129,12 +129,16 @@ export function AddNeedModal() {
           anonymous_avatar_svg: isAnonymous ? user.anonymous_avatar_svg : undefined,
         }),
       });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to submit need");
+      }
       const need = await res.json();
       toast.success("Need added successfully!");
       setIsAddNeedOpen(false);
       router.push(`/needs/${need.id}`);
-    } catch {
-      toast.error("Failed to submit need");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to submit need");
     } finally {
       setSubmitting(false);
     }
