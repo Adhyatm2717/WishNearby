@@ -49,6 +49,8 @@ export async function POST(request: NextRequest) {
           need_id,
           entrepreneur_id: user.id,
           stage: 1
+        }, {
+          onConflict: "need_id"
         })
         .select()
         .single();
