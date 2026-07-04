@@ -134,27 +134,42 @@ export default function HomePageContent() {
           </div>
         </div>
 
-        {/* Beautiful Custom Community Illustration SVG */}
-        <div className="flex justify-center items-center shrink-0">
-          <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-[260px] h-auto hidden md:block select-none opacity-90 hover:opacity-100 transition-opacity duration-300">
-            <circle cx="150" cy="30" r="16" fill="#FCD34D" opacity="0.6" />
-            <path d="M40 25 C45 25 48 28 48 32 C48 36 43 40 38 40 C33 40 30 36 30 32 C30 28 35 25 40 25 Z" fill="#FFFFFF" opacity="0.85" />
-            <path d="M120 20 C124 20 127 22 127 25 C127 28 123 31 119 31 C115 31 112 28 112 25 C112 22 116 20 120 20 Z" fill="#FFFFFF" opacity="0.75" />
-            <path d="M-10 110 Q40 85 90 105 T190 95 Q210 98 220 110 Z" fill="#047857" opacity="0.08" />
-            <path d="M-20 120 Q60 100 130 115 T230 105 L230 130 L-20 130 Z" fill="#E2E8F0" />
-            <rect x="25" y="70" width="22" height="24" rx="3" fill="#1E3A8A" />
-            <polygon points="21,70 36,54 51,70" fill="#D4AF37" />
-            <rect x="32" y="80" width="8" height="14" rx="1" fill="#FFFFFF" />
-            <rect x="65" y="60" width="28" height="34" rx="4" fill="#0F172A" />
-            <polygon points="61,60 79,42 97,60" fill="#EF4444" />
-            <rect x="73" y="74" width="12" height="20" rx="2" fill="#F8FAFC" />
-            <rect x="115" y="75" width="20" height="19" rx="3" fill="#059669" />
-            <polygon points="111,75 125,60 139,75" fill="#D4AF37" />
-            <rect x="121" y="83" width="8" height="11" rx="1" fill="#FFFFFF" />
-            <rect x="54" y="80" width="4" height="14" fill="#78350F" />
-            <circle cx="56" cy="74" r="9" fill="#10B981" />
-            <rect x="102" y="74" width="3.5" height="20" fill="#78350F" />
-            <ellipse cx="104" cy="66" rx="8" ry="11" fill="#047857" />
+        {/* Beautiful Modern Abstract community grid illustration */}
+        <div className="hidden md:flex justify-center items-center shrink-0 w-64 h-48 relative select-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full bg-gradient-to-tr from-cta/15 to-primary/30 blur-2xl opacity-60 animate-pulse duration-[8000ms]" />
+          <svg viewBox="0 0 160 160" className="w-full h-full relative z-10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="orbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#1D4ED8" stopOpacity="0.2" />
+              </linearGradient>
+              <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#10B981" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="#059669" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            {/* Connected grid nodes */}
+            <circle cx="80" cy="80" r="50" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="4 4" />
+            <circle cx="80" cy="80" r="30" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+            
+            {/* Center glowing orb */}
+            <circle cx="80" cy="80" r="16" fill="url(#orbGrad)" />
+            <circle cx="80" cy="80" r="28" stroke="url(#glowGrad)" strokeWidth="2" opacity="0.5" />
+
+            {/* Connecting lines */}
+            <line x1="80" y1="80" x2="35" y2="45" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
+            <line x1="80" y1="80" x2="125" y2="45" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
+            <line x1="80" y1="80" x2="80" y2="130" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
+            
+            {/* Node markers */}
+            <circle cx="35" cy="45" r="7" fill="#F59E0B" />
+            <circle cx="35" cy="45" r="4" fill="#FFFFFF" />
+            
+            <circle cx="125" cy="45" r="7" fill="#10B981" />
+            <circle cx="125" cy="45" r="4" fill="#FFFFFF" />
+            
+            <circle cx="80" cy="130" r="7" fill="#3B82F6" />
+            <circle cx="80" cy="130" r="4" fill="#FFFFFF" />
           </svg>
         </div>
       </motion.div>
@@ -167,37 +182,41 @@ export default function HomePageContent() {
             {
               title: "Add Need",
               desc: "Share something your area needs.",
-              icon: "➕",
+              icon: <PlusCircle className="h-5.5 w-5.5 text-primary group-hover:scale-110 transition-transform duration-300" />,
               action: handleAddNeedClick,
+              bg: "bg-primary/5 hover:bg-primary/10 border-primary/15 hover:border-primary/30",
             },
             {
               title: "Count Me In",
               desc: "Support existing needs.",
-              icon: "💚",
+              icon: <Heart className="h-5.5 w-5.5 text-cta group-hover:scale-110 transition-transform duration-300 fill-cta/10 group-hover:fill-cta/25" />,
               action: handleCountMeInClick,
+              bg: "bg-cta/5 hover:bg-cta/10 border-cta/15 hover:border-cta/30",
             },
             {
               title: "Explore Map",
               desc: "See nearby community demand.",
-              icon: "🗺️",
+              icon: <Map className="h-5.5 w-5.5 text-gold group-hover:scale-110 transition-transform duration-300" />,
               link: "/map",
+              bg: "bg-gold/5 hover:bg-gold/10 border-gold/15 hover:border-gold/30",
             },
           ].map((act, i) => {
             const Content = (
-              <div className="h-full flex flex-col justify-between">
-                <span className="text-3xl shrink-0 mb-3">{act.icon}</span>
-                <div>
-                  <h3 className="font-bold text-base text-foreground group-hover:text-primary transition-colors flex items-center gap-1">
+              <div className="h-full flex flex-col justify-between items-start">
+                <div className="h-10 w-10 rounded-xl bg-background border border-border/50 flex items-center justify-center shadow-sm shrink-0">
+                  {act.icon}
+                </div>
+                <div className="mt-4">
+                  <h3 className="font-bold text-sm sm:text-base text-foreground group-hover:text-primary transition-colors flex items-center gap-1.5">
                     {act.title}
-                    <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                    <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
                   </h3>
                   <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{act.desc}</p>
                 </div>
               </div>
             );
 
-            const cardClasses =
-              "group relative p-5 bg-card hover:bg-muted/15 border border-border/60 hover:border-primary/20 rounded-2xl shadow-soft hover:shadow-soft-lg transition-all duration-300 text-left h-36 cursor-pointer";
+            const cardClasses = `group relative p-5 bg-card border rounded-2xl shadow-soft hover:shadow-soft-lg transition-all duration-300 text-left h-36 cursor-pointer flex flex-col justify-between hover-glow ${act.bg}`;
 
             if (act.link) {
               return (

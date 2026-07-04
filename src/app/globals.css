@@ -162,6 +162,34 @@
   background: linear-gradient(135deg, #B8960C 0%, #D4AF37 100%);
 }
 
+@utility hover-glow {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--cta) 100%);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.hover-glow:hover::after {
+  opacity: 0.12;
+}
+
+@utility bg-mesh-premium {
+  background-color: var(--background);
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(30, 58, 138, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 90% 10%, rgba(5, 150, 101, 0.03) 0%, transparent 35%),
+    radial-gradient(circle at 50% 80%, rgba(212, 175, 55, 0.02) 0%, transparent 30%);
+}
+
 * {
   border-color: var(--border);
 }

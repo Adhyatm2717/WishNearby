@@ -109,7 +109,7 @@ export function NeedCard({ need, index = 0, compact = false }: NeedCardProps) {
       <Link href={`/needs/${need.id}`} className="block cursor-pointer group">
         <Card
           className={cn(
-            "overflow-hidden hover:shadow-soft-lg hover:border-primary/25 border border-border/70 rounded-2xl bg-card transition-all duration-300",
+            "overflow-hidden hover:shadow-soft-lg hover:border-primary/30 border border-border/60 rounded-2xl bg-card transition-all duration-300 hover-glow",
             compact ? "p-4" : "p-5 md:p-6"
           )}
         >

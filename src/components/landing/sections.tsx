@@ -1,8 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, PenLine, Users, Store, Heart, Shield, BadgeCheck, Lock } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 const steps = [
   {
@@ -199,44 +202,145 @@ export function Testimonials() {
 }
 
 export function LandingFooter() {
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      setSubscribed(true);
+      toast.success("Subscribed to community updates!");
+      setEmail("");
+    }
+  };
+
   return (
-    <footer className="border-t border-border/60 bg-card/50 backdrop-blur-sm">
+    <footer className="border-t border-border/50 bg-card/65 backdrop-blur-md relative z-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 sm:gap-12">
-          <div className="md:col-span-2 flex flex-col items-start">
-            <Link href="/" className="mb-4 inline-block bg-white p-3 rounded-2xl border border-border/40 shadow-soft max-w-[150px] hover:shadow-soft-lg transition-shadow duration-200">
-              <img src="/logo-full.png?v=5" alt="WishNearby" className="w-full h-auto object-contain" />
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
+          {/* Brand & Social Column */}
+          <div className="md:col-span-4 space-y-5">
+            <Link href="/" className="inline-block bg-white p-2.5 rounded-xl border border-border/40 shadow-soft max-w-[130px] hover:shadow-soft-lg transition-all duration-300">
+              <img src="/logo-full.png?v=5" alt="WishNearby Logo" className="w-full h-auto object-contain" />
             </Link>
-            <p className="text-muted-foreground leading-relaxed max-w-md text-sm">
-              A non-profit community platform revealing real local demand. No ads. No commissions.
-              No marketplace. Community first.
+            <p className="text-muted-foreground leading-relaxed text-xs sm:text-sm max-w-sm">
+              A transparent, non-profit community utility designed to validate real local demand. No algorithms. No hidden commissions. Just neighborhood voices.
             </p>
+            {/* Social Icons with Micro-animations */}
+            <div className="flex items-center gap-3.5 pt-1">
+              {[
+                {
+                  name: "Twitter X",
+                  href: "#",
+                  icon: (
+                    <svg className="h-4.5 w-4.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    </svg>
+                  ),
+                },
+                {
+                  name: "Instagram",
+                  href: "#",
+                  icon: (
+                    <svg className="h-4.5 w-4.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.01 3.752.054 2.768.127 4.166 1.525 4.293 4.293.043.968.054 1.322.054 3.752v.21c0 2.43-.01 2.784-.054 3.752-.127 2.768-1.525 4.166-4.293 4.293-.968.043-1.322.054-3.752.054h-.21c-2.43 0-2.784-.01-3.752-.054-2.768-.127-4.166-1.525-4.293-4.293C2.011 15.341 2 14.987 2 12.553v-.21c0-2.43.01-2.784.054-3.752.127-2.768 1.525-4.166 4.293-4.293.968-.043 1.322-.054 3.752-.054h.21zM12 5.802a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM12 16.75a4.75 4.75 0 110-9.5 4.75 4.75 0 010 9.5zM18.006 5.675a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z" clipRule="evenodd" />
+                    </svg>
+                  ),
+                },
+                {
+                  name: "LinkedIn",
+                  href: "#",
+                  icon: (
+                    <svg className="h-4.5 w-4.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path fillRule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clipRule="evenodd" />
+                    </svg>
+                  ),
+                },
+                {
+                  name: "GitHub",
+                  href: "#",
+                  icon: (
+                    <svg className="h-4.5 w-4.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                    </svg>
+                  ),
+                },
+              ].map((social) => (
+                <motion.a
+                  key={social.name}
+                  href={social.href}
+                  title={social.name}
+                  whileHover={{ scale: 1.15, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="h-8 w-8 rounded-lg flex items-center justify-center bg-muted/65 hover:bg-primary hover:text-primary-foreground text-muted-foreground transition-all duration-300 shadow-soft cursor-pointer"
+                >
+                  {social.icon}
+                </motion.a>
+              ))}
+            </div>
           </div>
-          <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-muted-foreground">Platform</h4>
-            <ul className="space-y-2.5 text-sm text-muted-foreground">
-              <li><Link href="/home" className="hover:text-primary transition-colors duration-200 cursor-pointer">Explore Needs</Link></li>
-              <li><Link href="/post" className="hover:text-primary transition-colors duration-200 cursor-pointer">Post a Need</Link></li>
-              <li><Link href="/entrepreneur" className="hover:text-primary transition-colors duration-200 cursor-pointer">For Entrepreneurs</Link></li>
-              <li><Link href="/map" className="hover:text-primary transition-colors duration-200 cursor-pointer">Demand Map</Link></li>
+
+          {/* Links Column 1 */}
+          <div className="md:col-span-2 space-y-4">
+            <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">Platform</h4>
+            <ul className="space-y-3 text-xs sm:text-sm">
+              <li><Link href="/home" className="text-muted-foreground hover:text-primary transition-all duration-200 cursor-pointer block font-medium">Explore Needs</Link></li>
+              <li><Link href="/post" className="text-muted-foreground hover:text-primary transition-all duration-200 cursor-pointer block font-medium">Post a Need</Link></li>
+              <li><Link href="/entrepreneur" className="text-muted-foreground hover:text-primary transition-all duration-200 cursor-pointer block font-medium">For Entrepreneurs</Link></li>
+              <li><Link href="/map" className="text-muted-foreground hover:text-primary transition-all duration-200 cursor-pointer block font-medium">Demand Map</Link></li>
             </ul>
           </div>
-          <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-muted-foreground">Community</h4>
-            <ul className="space-y-2.5 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors duration-200 cursor-pointer">About Us</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors duration-200 cursor-pointer">Guidelines</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors duration-200 cursor-pointer">Privacy</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors duration-200 cursor-pointer">Contact</a></li>
+
+          {/* Links Column 2 */}
+          <div className="md:col-span-2 space-y-4">
+            <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">Resources</h4>
+            <ul className="space-y-3 text-xs sm:text-sm">
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-all duration-200 cursor-pointer block font-medium">About Us</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-all duration-200 cursor-pointer block font-medium">Community Guidelines</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-all duration-200 cursor-pointer block font-medium">Privacy Policy</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-all duration-200 cursor-pointer block font-medium">Contact Us</a></li>
             </ul>
+          </div>
+
+          {/* Newsletter Column */}
+          <div className="md:col-span-4 space-y-4">
+            <h4 className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">Stay Updated</h4>
+            <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
+              Get monthly updates on top local wishes and community growth milestones.
+            </p>
+            {subscribed ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="p-3.5 rounded-xl bg-cta/10 text-cta text-xs font-semibold border border-cta/20"
+              >
+                ✓ Thanks for subscribing to WishNearby!
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubscribe} className="flex gap-2">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="flex-1 min-w-0 px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-border/80 bg-background/50 focus:bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary focus:outline-none transition-all placeholder:text-muted-foreground/75"
+                />
+                <Button type="submit" variant="primary" className="rounded-xl shadow-soft font-semibold text-xs shrink-0 px-4 py-2">
+                  Subscribe
+                </Button>
+              </form>
+            )}
           </div>
         </div>
-        <div className="mt-14 pt-8 border-t border-border/60 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} WishNearby. Non-profit community platform.
+
+        {/* Divider */}
+        <div className="mt-16 pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-xs sm:text-sm text-muted-foreground font-medium">
+            &copy; {new Date().getFullYear()} WishNearby. Powered by local voice, zero ads.
           </p>
-          <p className="text-sm text-muted-foreground flex items-center gap-1.5">
-            Made with <Heart className="h-4 w-4 text-cta fill-cta" /> for local communities
+          <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1.5 font-medium">
+            Made with <Heart className="h-4 w-4 text-cta fill-cta animate-pulse" /> for stronger neighborhoods
           </p>
         </div>
       </div>
