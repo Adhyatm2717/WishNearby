@@ -203,8 +203,10 @@ export function LandingFooter() {
     <footer className="border-t border-border/60 bg-card/50 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 sm:gap-12">
-          <div className="md:col-span-2">
-            <h3 className="text-2xl font-bold mb-3 gradient-text">WishNearby</h3>
+          <div className="md:col-span-2 flex flex-col items-start">
+            <Link href="/" className="mb-4 inline-block bg-white p-3 rounded-2xl border border-border/40 shadow-soft max-w-[150px] hover:shadow-soft-lg transition-shadow duration-200">
+              <img src="/logo-full.png?v=5" alt="WishNearby" className="w-full h-auto object-contain" />
+            </Link>
             <p className="text-muted-foreground leading-relaxed max-w-md text-sm">
               A non-profit community platform revealing real local demand. No ads. No commissions.
               No marketplace. Community first.
