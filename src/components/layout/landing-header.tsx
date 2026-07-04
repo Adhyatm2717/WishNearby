@@ -33,8 +33,8 @@ export function LandingHeader() {
               className="flex items-center gap-2.5 min-w-0 cursor-pointer shrink-0 group"
               onClick={() => setMenuOpen(false)}
             >
-              <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-xl overflow-hidden shrink-0 flex items-center justify-center bg-white border border-border/50 shadow-soft group-hover:shadow-soft-lg transition-shadow duration-200">
-                <img src="/logo.png?v=4" alt="Logo" className="w-full h-full object-cover object-top scale-[1.6] transform origin-top" />
+              <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-xl overflow-hidden shrink-0 flex items-center justify-center bg-white border border-border/50 shadow-soft group-hover:shadow-soft-lg transition-shadow duration-200 p-1">
+                <img src="/logo-icon.png?v=5" alt="Logo" className="w-full h-full object-contain" />
               </div>
               <span className="text-base sm:text-lg font-bold truncate tracking-tight">{APP_NAME}</span>
             </Link>

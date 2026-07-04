@@ -62,8 +62,8 @@ export default function LoginPage() {
       >
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2.5 mb-8 cursor-pointer group">
-            <div className="h-10 w-10 rounded-xl overflow-hidden shrink-0 flex items-center justify-center bg-white border border-border/50 shadow-soft group-hover:shadow-soft-lg transition-shadow duration-200">
-              <img src="/logo.png?v=4" alt="Logo" className="w-full h-full object-cover object-top scale-[1.6] transform origin-top" />
+            <div className="h-10 w-10 rounded-xl overflow-hidden shrink-0 flex items-center justify-center bg-white border border-border/50 shadow-soft group-hover:shadow-soft-lg transition-shadow duration-200 p-1.5">
+              <img src="/logo-icon.png?v=5" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <span className="text-xl font-bold tracking-tight">{APP_NAME}</span>
           </Link>
