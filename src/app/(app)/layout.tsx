@@ -14,7 +14,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex flex-col min-h-dvh bg-background pt-safe">
-      <div className="flex flex-1 w-full relative">
+      <div className="flex flex-1 w-full relative items-start">
         <SidebarNav />
         <main className="flex-1 flex flex-col min-w-0 pb-nav md:pb-0 overflow-x-hidden">
           <div className="flex flex-1 max-w-[1600px] mx-auto w-full">
