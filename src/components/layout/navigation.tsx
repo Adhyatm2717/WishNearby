@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { TrendingUp, ArrowLeftRight, Sparkle } from "lucide-react";
+import { TrendingUp, Sparkle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { APP_NAME } from "@/lib/constants";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useExperience } from "@/contexts/experience-context";
+
 import { getNavItems, ADMIN_NAV_ITEM, type NavItem } from "@/lib/nav-config";
 import { EXPERIENCE_LABELS } from "@/lib/experience";
 import { toast } from "sonner";
@@ -105,19 +106,9 @@ function NavLink({
 
 export function SidebarNav() {
   const pathname = usePathname();
-  const { mode, setMode } = useExperience();
+  const { mode } = useExperience();
   const navItems = getNavItems(mode);
   const modeLabel = EXPERIENCE_LABELS[mode].title;
-
-  const toggleExperienceMode = () => {
-    const nextMode = mode === "explorer" ? "entrepreneur" : "explorer";
-    setMode(nextMode);
-    toast.success(
-      nextMode === "explorer"
-        ? "Welcome to Community Explorer"
-        : "Switched to Entrepreneur Workspace"
-    );
-  };
 
   return (
     <aside className="hidden md:flex flex-col shrink-0 h-dvh sticky top-0 border-r border-border bg-card/85 backdrop-blur-md md:w-[4.5rem] lg:w-64 xl:w-72 shadow-soft">
@@ -148,16 +139,7 @@ export function SidebarNav() {
           return <NavLink key={item.href} item={item} isActive={isActive} layout="sidebar" />;
         })}
 
-        {/* Switch Experience Option */}
-        <button
-          type="button"
-          onClick={toggleExperienceMode}
-          className="w-full relative flex items-center gap-3 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer md:justify-center lg:justify-start px-3 py-2.5 mt-2 border border-dashed border-primary/20 bg-primary/5 text-primary hover:bg-primary/10 hover:border-primary/40 border-0"
-          title="Switch Workspace"
-        >
-          <ArrowLeftRight className="h-5 w-5 shrink-0" />
-          <span className="hidden lg:inline font-bold">Switch Experience</span>
-        </button>
+
 
         {/* Admin Link */}
         <div className="pt-4 mt-4 border-t border-border/60 hidden lg:block">

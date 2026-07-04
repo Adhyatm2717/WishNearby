@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Mail, Lock, User, ArrowRight, Globe, Apple, Square } from "lucide-react";
+import { Sparkles, Mail, Lock, User, ArrowRight, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -193,22 +193,7 @@ export default function AuthenticationPage() {
                 <Globe className="h-4 w-4 text-primary" />
                 Continue with Google
               </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleOAuth("Apple")}
-                className="w-full h-10 text-xs font-semibold rounded-xl gap-2 hover:bg-muted border-border/60"
-              >
-                <Apple className="h-4 w-4" />
-                Continue with Apple
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleOAuth("Microsoft")}
-                className="w-full h-10 text-xs font-semibold rounded-xl gap-2 hover:bg-muted border-border/60"
-              >
-                <Square className="h-4 w-4" />
-                Continue with Microsoft
-              </Button>
+
             </div>
 
             {/* Divider */}
