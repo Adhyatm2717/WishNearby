@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { TrendingUp } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -57,8 +57,8 @@ export default function SignupPage() {
       >
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2.5 mb-8 cursor-pointer group">
-            <div className="h-10 w-10 rounded-xl gradient-primary flex items-center justify-center shadow-soft group-hover:shadow-soft-lg transition-shadow duration-200">
-              <TrendingUp className="h-5 w-5 text-primary-foreground" />
+            <div className="h-10 w-10 rounded-xl overflow-hidden shrink-0 flex items-center justify-center bg-white border border-border/50 shadow-soft group-hover:shadow-soft-lg transition-shadow duration-200">
+              <img src="/logo.png" alt="Logo" className="w-full h-full object-cover object-top scale-[1.6] transform origin-top" />
             </div>
             <span className="text-xl font-bold tracking-tight">{APP_NAME}</span>
           </Link>

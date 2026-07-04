@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { TrendingUp, Sparkle } from "lucide-react";
+import { Sparkle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { APP_NAME } from "@/lib/constants";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -119,8 +119,8 @@ export function SidebarNav() {
           title={APP_NAME}
           className="flex items-center gap-3 cursor-pointer md:justify-center lg:justify-start group"
         >
-          <div className="h-10 w-10 rounded-xl gradient-primary flex items-center justify-center shrink-0 shadow-soft group-hover:shadow-soft-lg transition-shadow duration-200">
-            <TrendingUp className="h-5 w-5 text-primary-foreground" />
+          <div className="h-10 w-10 rounded-xl overflow-hidden shrink-0 flex items-center justify-center bg-white border border-border/50 shadow-soft group-hover:shadow-soft-lg transition-shadow duration-200">
+            <img src="/logo.png" alt="Logo" className="w-full h-full object-cover object-top scale-[1.6] transform origin-top" />
           </div>
           <div className="hidden lg:block min-w-0">
             <span className="text-lg font-bold tracking-tight block truncate text-foreground">{APP_NAME}</span>

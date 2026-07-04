@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, TrendingUp } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { APP_NAME } from "@/lib/constants";
@@ -33,8 +33,8 @@ export function LandingHeader() {
               className="flex items-center gap-2.5 min-w-0 cursor-pointer shrink-0 group"
               onClick={() => setMenuOpen(false)}
             >
-              <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-xl gradient-primary flex items-center justify-center shrink-0 shadow-soft group-hover:shadow-soft-lg transition-shadow duration-200">
-                <TrendingUp className="h-4 w-4 text-primary-foreground" />
+              <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-xl overflow-hidden shrink-0 flex items-center justify-center bg-white border border-border/50 shadow-soft group-hover:shadow-soft-lg transition-shadow duration-200">
+                <img src="/logo.png" alt="Logo" className="w-full h-full object-cover object-top scale-[1.6] transform origin-top" />
               </div>
               <span className="text-base sm:text-lg font-bold truncate tracking-tight">{APP_NAME}</span>
             </Link>
