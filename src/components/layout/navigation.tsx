@@ -111,7 +111,7 @@ export function SidebarNav() {
   const modeLabel = EXPERIENCE_LABELS[mode].title;
 
   return (
-    <aside className="hidden md:flex flex-col shrink-0 h-dvh sticky top-0 self-start border-r border-border bg-card/85 backdrop-blur-md md:w-[4.5rem] lg:w-64 xl:w-72 shadow-soft">
+    <aside className="hidden md:flex flex-col shrink-0 h-dvh sticky top-0 self-start border-r border-border bg-card/85 backdrop-blur-md md:w-[4.5rem] lg:w-64 xl:w-72 shadow-soft rounded-r-3xl overflow-hidden">
       {/* Top Header Logo */}
       <div className="p-4 lg:p-6 pb-3 lg:pb-4 safe-area-top">
         <Link
