@@ -168,19 +168,19 @@ export function AddNeedModal() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-lg bg-card border border-border/70 rounded-2xl shadow-float z-10 overflow-hidden max-h-[90vh] flex flex-col"
+          className="relative w-full max-w-lg bg-card border border-border/60 rounded-2xl shadow-float z-10 overflow-hidden max-h-[90vh] flex flex-col"
         >
           {/* Top Bar */}
-          <div className="flex items-center justify-between p-5 border-b border-border/50">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border/50 bg-card">
             <div>
-              <h2 className="text-xl font-bold tracking-tight">Share a Need</h2>
+              <h2 className="text-lg font-bold tracking-tight">Share a Need</h2>
               <p className="text-xs text-muted-foreground mt-0.5">Let your community discover what is missing</p>
             </div>
             <button
               onClick={() => setIsAddNeedOpen(false)}
-              className="h-8 w-8 rounded-full bg-muted/65 hover:bg-muted/90 flex items-center justify-center transition-colors border-0 cursor-pointer"
+              className="h-8 w-8 rounded-full bg-muted/50 hover:bg-muted flex items-center justify-center transition-all duration-150 border-0 cursor-pointer hover:scale-105 active:scale-95"
             >
-              <X className="h-4 w-4" />
+              <X className="h-4 w-4 text-muted-foreground" />
             </button>
           </div>
 
@@ -268,7 +268,7 @@ export function AddNeedModal() {
                 </div>
 
                 {/* Anonymous switch card */}
-                <Card className="p-4 rounded-xl border-border/50 bg-muted/20 flex flex-col gap-3">
+                <Card className="p-4 rounded-xl border-border/40 bg-primary/[0.03] dark:bg-primary/[0.05] flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <p className="text-sm font-semibold tracking-tight">Post Anonymously</p>
@@ -397,7 +397,7 @@ export function AddNeedModal() {
           </div>
 
           {/* Footer Controls */}
-          <div className="p-4 border-t border-border/50 flex gap-3 bg-muted/10">
+          <div className="px-5 py-4 border-t border-border/50 flex gap-3 bg-muted/20">
             {step === "form" ? (
               <>
                 <Button
@@ -408,7 +408,7 @@ export function AddNeedModal() {
                   Cancel
                 </Button>
                 <Button
-                  className="flex-1 gap-1.5 rounded-xl shadow-soft"
+                  className="flex-1 gap-2 rounded-xl shadow-soft gradient-cta text-cta-foreground hover:brightness-105 hover:-translate-y-0.5"
                   onClick={runAICheck}
                   disabled={checking || !title.trim() || !description.trim()}
                 >

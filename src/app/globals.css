@@ -30,11 +30,11 @@
 
 .dark {
   --background: #0B1120;
-  --foreground: #FFFFFF;
+  --foreground: #F1F5F9;
   --card: #111827;
-  --card-foreground: #FFFFFF;
-  --popover: #111827;
-  --popover-foreground: #FFFFFF;
+  --card-foreground: #F1F5F9;
+  --popover: #131E30;
+  --popover-foreground: #F1F5F9;
   --primary: #3B82F6;
   --primary-foreground: #FFFFFF;
   --secondary: #1E293B;
@@ -50,8 +50,8 @@
   --accent-foreground: #BFDBFE;
   --destructive: #F87171;
   --destructive-foreground: #FFFFFF;
-  --border: #1E293B;
-  --input: #1E293B;
+  --border: #1E2D45;
+  --input: #162032;
   --ring: #3B82F6;
 }
 
@@ -92,28 +92,28 @@
 
 @utility shadow-soft {
   box-shadow:
-    0 1px 2px 0 rgb(15 23 42 / 0.04),
-    0 4px 16px -2px rgb(30 58 138 / 0.06);
+    0 1px 3px 0 rgb(15 23 42 / 0.05),
+    0 4px 12px -2px rgb(30 58 138 / 0.07);
 }
 
 @utility shadow-soft-lg {
   box-shadow:
-    0 2px 4px -1px rgb(15 23 42 / 0.05),
-    0 12px 32px -4px rgb(30 58 138 / 0.1);
+    0 4px 6px -1px rgb(15 23 42 / 0.06),
+    0 12px 28px -4px rgb(30 58 138 / 0.12);
 }
 
 @utility shadow-float {
   box-shadow:
-    0 0 0 1px rgb(15 23 42 / 0.04),
-    0 8px 40px -8px rgb(15 23 42 / 0.1),
-    0 16px 64px -16px rgb(30 58 138 / 0.08);
+    0 0 0 1px rgb(15 23 42 / 0.05),
+    0 8px 32px -8px rgb(15 23 42 / 0.12),
+    0 24px 56px -16px rgb(30 58 138 / 0.1);
 }
 
 .dark .shadow-float {
   box-shadow:
     0 0 0 1px rgb(255 255 255 / 0.06),
-    0 8px 40px -8px rgb(0 0 0 / 0.45),
-    0 16px 64px -16px rgb(30 58 138 / 0.12);
+    0 8px 40px -8px rgb(0 0 0 / 0.5),
+    0 24px 64px -16px rgb(30 58 138 / 0.15);
 }
 
 @utility glass {
@@ -164,7 +164,22 @@
 
 @utility hover-glow {
   position: relative;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, var(--primary), var(--cta)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
 }
 
 .hover-glow::after {
@@ -175,11 +190,16 @@
   background: linear-gradient(135deg, var(--primary) 0%, var(--cta) 100%);
   opacity: 0;
   z-index: -1;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s ease;
+  filter: blur(8px);
+}
+
+.hover-glow:hover::before {
+  opacity: 0.6;
 }
 
 .hover-glow:hover::after {
-  opacity: 0.12;
+  opacity: 0.08;
 }
 
 @utility bg-mesh-premium {
@@ -255,6 +275,51 @@ h1, h2, h3, h4, h5, h6 {
 .animate-count-up {
   animation: count-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes zoom-in-95 {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes zoom-out-95 {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.95); opacity: 0; }
+}
+
+@keyframes slide-in-from-top-2 {
+  from { transform: translateY(-8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slide-in-from-bottom-2 {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.animate-out {
+  animation-fill-mode: both;
+}
+
+.fade-in-0 { animation-name: fade-in; animation-duration: 150ms; animation-timing-function: ease-out; }
+.fade-out-0 { animation-name: fade-out; animation-duration: 100ms; animation-timing-function: ease-in; }
+.zoom-in-95 { animation-name: zoom-in-95; animation-duration: 200ms; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+.zoom-out-95 { animation-name: zoom-out-95; animation-duration: 100ms; animation-timing-function: ease-in; }
+.slide-in-from-top-2 { animation-name: slide-in-from-top-2; animation-duration: 200ms; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+.slide-in-from-bottom-2 { animation-name: slide-in-from-bottom-2; animation-duration: 200ms; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
 
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
