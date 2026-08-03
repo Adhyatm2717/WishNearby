@@ -281,8 +281,9 @@ export async function getEntrepreneurOpportunities(): Promise<Need[]> {
     return (needs || []) as Need[];
   }
 
+  // Show all active needs to entrepreneurs — both claimed (showing stage) and unclaimed (open opportunities)
   return sortNeeds(
-    MOCK_NEEDS.filter((n) => n.status === "active" && !n.entrepreneur_id),
+    MOCK_NEEDS.filter((n) => n.status === "active"),
     "trending"
   ).map(enrichNeed);
 }

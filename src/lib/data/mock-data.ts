@@ -1,80 +1,64 @@
 import type { User, Need, Comment, Notification, BusinessClaim } from "@/types";
 
-// ─── Simple inline avatar SVGs ───────────────────────────────────────────────
-const AVATAR_BLUE = `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#1E3A8A"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="16" font-family="sans-serif" font-weight="bold">R</text></svg>`;
-const AVATAR_PURPLE = `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#7C3AED"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="16" font-family="sans-serif" font-weight="bold">P</text></svg>`;
-const AVATAR_GREEN = `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#059669"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="16" font-family="sans-serif" font-weight="bold">A</text></svg>`;
-const AVATAR_ORANGE = `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#EA580C"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="16" font-family="sans-serif" font-weight="bold">S</text></svg>`;
-
-// Anonymous avatars (animal-themed)
-const ANON_WOLF = `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#312e81"/><text x="50%" y="57%" dominant-baseline="middle" text-anchor="middle" font-size="22">🐺</text></svg>`;
-const ANON_FOX  = `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#92400e"/><text x="50%" y="57%" dominant-baseline="middle" text-anchor="middle" font-size="22">🦊</text></svg>`;
-const ANON_OWL  = `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#1e3a5f"/><text x="50%" y="57%" dominant-baseline="middle" text-anchor="middle" font-size="22">🦉</text></svg>`;
-
+// ─────────────────────────────────────────────
+// USERS (5 realistic community members)
+// ─────────────────────────────────────────────
 export const MOCK_USERS: User[] = [
   {
     id: "user-1",
     email: "rahul@example.com",
     full_name: "Rahul Sharma",
-    avatar_svg: AVATAR_BLUE,
-    bio: "Food enthusiast from Madhya Pradesh living in Pune. Always on the hunt for authentic local flavours.",
+    avatar_url: undefined,
+    bio: "Food enthusiast from Madhya Pradesh living in Pune. Always hunting for authentic flavours.",
     location: "Lohegaon, Pune",
     reputation: 847,
     is_entrepreneur: false,
     is_admin: false,
-    universe: "fantasy",
-    anonymous_name: "North Wolf",
-    anonymous_username: "north.wolf",
-    anonymous_avatar_svg: ANON_WOLF,
     created_at: "2025-08-15T10:00:00Z",
   },
   {
     id: "user-2",
     email: "priya@example.com",
     full_name: "Priya Patel",
-    avatar_svg: AVATAR_PURPLE,
-    bio: "Serial entrepreneur. I turn community needs into real businesses. Founder of 3 local ventures.",
+    bio: "Local entrepreneur passionate about turning community needs into real businesses.",
     location: "Koregaon Park, Pune",
     reputation: 1234,
     is_entrepreneur: true,
     is_admin: false,
-    universe: "magic",
-    anonymous_name: "Crimson Fox",
-    anonymous_username: "crimson.fox",
-    anonymous_avatar_svg: ANON_FOX,
     created_at: "2025-06-20T10:00:00Z",
   },
   {
     id: "user-3",
     email: "amit@example.com",
     full_name: "Amit Desai",
-    avatar_svg: AVATAR_GREEN,
-    bio: "Community organizer. If my neighbourhood needs it, I'll make noise until someone builds it.",
+    bio: "Community organizer and local champion. Tech-park professional who misses home food.",
     location: "Viman Nagar, Pune",
     reputation: 562,
     is_entrepreneur: false,
     is_admin: false,
-    universe: "sci-fi",
-    anonymous_name: "Silent Owl",
-    anonymous_username: "silent.owl",
-    anonymous_avatar_svg: ANON_OWL,
     created_at: "2025-09-01T10:00:00Z",
   },
   {
     id: "user-4",
     email: "sneha@example.com",
     full_name: "Sneha Kulkarni",
-    avatar_svg: AVATAR_ORANGE,
-    bio: "Software engineer & weekend marathoner. I care about walkable neighbourhoods and good coffee.",
+    bio: "Startup founder | fitness junkie | mom of two. Building solutions for everyday Pune problems.",
+    location: "Wagholi, Pune",
+    reputation: 390,
+    is_entrepreneur: true,
+    is_admin: false,
+    created_at: "2025-11-10T10:00:00Z",
+  },
+  {
+    id: "user-5",
+    email: "rohan@example.com",
+    full_name: "Rohan Mehta",
+    bio: "Software engineer, weekend cyclist, and strong believer in hyperlocal economies.",
     location: "Kharadi, Pune",
-    reputation: 391,
+    reputation: 215,
     is_entrepreneur: false,
     is_admin: false,
-    universe: "adventure",
-    anonymous_name: "Storm Eagle",
-    anonymous_username: "storm.eagle",
-    anonymous_avatar_svg: ANON_FOX,
-    created_at: "2025-11-10T10:00:00Z",
+    created_at: "2026-01-05T10:00:00Z",
   },
   {
     id: "admin-1",
@@ -87,13 +71,17 @@ export const MOCK_USERS: User[] = [
   },
 ];
 
+// ─────────────────────────────────────────────
+// 15 SAMPLE NEEDS
+// 9 public, 6 anonymous — various categories
+// ─────────────────────────────────────────────
 export const MOCK_NEEDS: Need[] = [
-  // ── 1. PUBLIC ──────────────────────────────────────────────────────────────
+  // ── NEED 1 ── PUBLIC | Food | High demand
   {
     id: "need-1",
     title: "Authentic MP-style samosa with green chutney",
     description:
-      "Missing the authentic Madhya Pradesh style samosas with that perfect green chutney from back home. The ones available here are too oily and use the wrong filling. We need someone who can bring the real Indori taste to Lohegaon — the kind where the crust is thin and the filling has proper dry matar.",
+      "Missing the authentic Madhya Pradesh style samosas with that perfect green chutney from back home. The ones here use maida and too much oil — we need someone to bring the real khasta taste to Lohegaon! Even a small cart near the IT offices would be perfect.",
     category: "food",
     location_name: "Lohegaon, Pune",
     lat: 18.5975,
@@ -101,21 +89,22 @@ export const MOCK_NEEDS: Need[] = [
     price_min: 15,
     price_max: 30,
     support_count: 186,
-    comment_count: 5,
+    comment_count: 6,
     growth_rate: 34,
     author_id: "user-1",
     status: "active",
+    is_anonymous: false,
     created_at: "2026-01-15T08:30:00Z",
     updated_at: "2026-06-20T14:00:00Z",
     distance_km: 0.3,
   },
 
-  // ── 2. PUBLIC ──────────────────────────────────────────────────────────────
+  // ── NEED 2 ── PUBLIC | Services | Business Stage 2
   {
     id: "need-2",
     title: "24/7 affordable laundry pickup & delivery",
     description:
-      "Working professionals in Viman Nagar need a reliable 24/7 laundry pickup and delivery service. Current options are either too expensive (₹300+ per kg) or close by 8 PM. A simple app-based service with 24-hour turnaround at ₹80–100/kg would solve this for thousands of techies.",
+      "Working professionals in Viman Nagar need a reliable 24/7 laundry pickup and delivery service. Current options are either too expensive (Rs 200+ per kg) or close by 8 PM. A Rs 80-120/kg model with next-day delivery would be a game changer for this area.",
     category: "services",
     location_name: "Viman Nagar, Pune",
     lat: 18.5679,
@@ -123,10 +112,11 @@ export const MOCK_NEEDS: Need[] = [
     price_min: 80,
     price_max: 120,
     support_count: 94,
-    comment_count: 4,
+    comment_count: 5,
     growth_rate: 22,
     author_id: "user-3",
     status: "active",
+    is_anonymous: false,
     created_at: "2026-02-10T11:00:00Z",
     updated_at: "2026-06-18T09:00:00Z",
     distance_km: 2.1,
@@ -134,472 +124,436 @@ export const MOCK_NEEDS: Need[] = [
     entrepreneur_id: "user-2",
   },
 
-  // ── 3. PUBLIC ──────────────────────────────────────────────────────────────
+  // ── NEED 3 ── ANONYMOUS | Education | Medium demand
   {
     id: "need-3",
-    title: "Weekend coding bootcamp for kids (age 8–14)",
+    title: "Weekend coding bootcamp for kids aged 8-14",
     description:
-      "Parents in Koregaon Park want an affordable weekend coding bootcamp for children aged 8–14. Something fun, project-based and not just boring theory — think building simple games or apps. Fees should be under ₹2,000/month. Existing institutes are either too far or too expensive.",
+      "Parents in Koregaon Park want an affordable weekend coding bootcamp for children. Something fun, project-based — games, apps, animations — not just dry theory. Rs 500-800 per month, Saturday mornings would be ideal. My son is bored and needs productive engagement.",
     category: "education",
     location_name: "Koregaon Park, Pune",
     lat: 18.5362,
     lng: 73.8958,
-    price_min: 1200,
-    price_max: 2000,
+    price_min: 500,
+    price_max: 800,
     support_count: 67,
     comment_count: 4,
     growth_rate: 18,
     author_id: "user-2",
     status: "active",
+    is_anonymous: true,
+    anonymous_name: "Silent Owl",
     created_at: "2026-03-05T14:00:00Z",
     updated_at: "2026-06-15T16:00:00Z",
     distance_km: 4.5,
   },
 
-  // ── 4. PUBLIC ──────────────────────────────────────────────────────────────
+  // ── NEED 4 ── PUBLIC | Healthcare | High demand
   {
     id: "need-4",
-    title: "Affordable dental clinic open until 9 PM",
+    title: "Affordable dental clinic with evening hours",
     description:
-      "Many of us work 9 to 6 and literally cannot visit dentists during the day. We need an affordable dental clinic that stays open until 9 PM in the Lohegaon–Dhanori area. Basic procedures like cleaning and fillings should not cost more than ₹500. This is a public health gap.",
+      "Many of us work 9-6 and simply cannot visit dentists during the day. We need an affordable dental clinic open until 9 PM in Lohegaon area. Basic cleaning, fillings and check-ups under Rs 300. The nearest evening clinic is in Viman Nagar, 5 km away.",
     category: "healthcare",
     location_name: "Lohegaon, Pune",
     lat: 18.5998,
     lng: 73.9121,
+    price_min: 150,
+    price_max: 500,
     support_count: 143,
     comment_count: 4,
     growth_rate: 28,
     author_id: "user-1",
     status: "active",
+    is_anonymous: false,
     created_at: "2026-01-28T09:00:00Z",
     updated_at: "2026-06-22T11:00:00Z",
     distance_km: 0.8,
   },
 
-  // ── 5. PUBLIC (business claimed, stage 3) ─────────────────────────────────
+  // ── NEED 5 ── PUBLIC | Transportation | Highest demand | Business Stage 3
   {
     id: "need-5",
     title: "Shared electric scooter rental hub near airport",
     description:
-      "Last-mile connectivity from Lohegaon to Pune Airport and the nearby IT parks (Magarpatta, Phursungi) is a daily nightmare. A shared e-scooter rental hub with 20+ scooters, ₹15/km pricing and app-based unlock would solve this for thousands of commuters every single day.",
+      "Last-mile connectivity from Lohegaon to the airport and nearby tech parks (EON, Zensar) is terrible. Auto-rickshaws overcharge Rs 80-120 for 2 km. A shared e-scooter rental hub with Rs 2-3/min pricing would solve this for thousands of daily commuters.",
     category: "transportation",
     location_name: "Lohegaon, Pune",
     lat: 18.5821,
     lng: 73.9198,
+    price_min: 20,
+    price_max: 80,
     support_count: 211,
-    comment_count: 4,
+    comment_count: 6,
     growth_rate: 45,
     author_id: "user-3",
     status: "active",
+    is_anonymous: false,
     created_at: "2025-12-10T07:00:00Z",
     updated_at: "2026-06-25T08:00:00Z",
     distance_km: 1.2,
     business_stage: 3,
-    entrepreneur_id: "user-2",
+    entrepreneur_id: "user-4",
   },
 
-  // ── 6. ANONYMOUS ──────────────────────────────────────────────────────────
+  // ── NEED 6 ── ANONYMOUS | Sports | Medium demand
   {
     id: "need-6",
-    title: "Mental health counsellor available on weekends",
+    title: "Indoor badminton courts with hourly online booking",
     description:
-      "There's a serious shortage of affordable mental health professionals in Pune East. Most charge ₹1,500–2,000 per session which is simply out of reach. We need a qualified counsellor offering weekend slots for ₹300–500 per session, possibly via a hybrid in-person/online model.",
-    category: "healthcare",
-    location_name: "Dhanori, Pune",
-    lat: 18.6102,
-    lng: 73.9023,
-    support_count: 128,
-    comment_count: 4,
-    growth_rate: 38,
-    author_id: "user-4",
-    is_anonymous: true,
-    anonymous_name: "Storm Eagle",
-    anonymous_avatar_svg: ANON_FOX,
-    status: "active",
-    created_at: "2026-02-20T20:00:00Z",
-    updated_at: "2026-06-21T10:00:00Z",
-    distance_km: 1.9,
-  },
-
-  // ── 7. ANONYMOUS ──────────────────────────────────────────────────────────
-  {
-    id: "need-7",
-    title: "Safe well-lit running track for women",
-    description:
-      "As a woman who enjoys running, finding a safe, well-lit space to jog after work (6–8 PM) is nearly impossible. Parks close or have poor lighting. We need a dedicated 400m track with lights, CCTV, and possibly a women-only hour in the morning. This is a safety need, not a luxury.",
-    category: "sports",
-    location_name: "Viman Nagar, Pune",
-    lat: 18.5700,
-    lng: 73.9180,
-    support_count: 174,
-    comment_count: 5,
-    growth_rate: 41,
-    author_id: "user-4",
-    is_anonymous: true,
-    anonymous_name: "Storm Eagle",
-    anonymous_avatar_svg: ANON_FOX,
-    status: "active",
-    created_at: "2026-03-10T19:30:00Z",
-    updated_at: "2026-06-24T08:00:00Z",
-    distance_km: 2.4,
-  },
-
-  // ── 8. PUBLIC ──────────────────────────────────────────────────────────────
-  {
-    id: "need-8",
-    title: "Indoor badminton courts with online hourly booking",
-    description:
-      "Badminton is massive in this area but finding quality indoor courts with reliable online booking is nearly impossible. Courts fill up fast and there's no system — you just show up and wait. We need 4–6 professional-grade courts with PVC flooring, good lighting, and an app to book slots.",
+      "Badminton is huge in Wagholi but finding quality indoor courts with online hourly booking is nearly impossible. We need 4-6 courts with PU flooring, good lighting and a simple app to book. Rs 150-200 per hour per court. Currently driving 8 km to Kalyani Nagar.",
     category: "sports",
     location_name: "Wagholi, Pune",
     lat: 18.5812,
     lng: 73.9876,
-    price_min: 200,
-    price_max: 400,
+    price_min: 150,
+    price_max: 200,
     support_count: 78,
     comment_count: 3,
     growth_rate: 12,
     author_id: "user-3",
     status: "active",
+    is_anonymous: true,
+    anonymous_name: "Midnight Falcon",
     created_at: "2026-04-01T10:00:00Z",
     updated_at: "2026-06-10T12:00:00Z",
     distance_km: 6.3,
   },
 
-  // ── 9. ANONYMOUS ──────────────────────────────────────────────────────────
+  // ── NEED 7 ── PUBLIC | Shopping | FULFILLED Stage 4
   {
-    id: "need-9",
-    title: "Proper coworking space under ₹3,000/month",
+    id: "need-7",
+    title: "Organic farmers market every Sunday morning",
     description:
-      "Freelancers and startup folks in the Lohegaon–Viman Nagar belt are paying ₹6,000–12,000/month for coworking. That's insane for solopreneurs just starting out. We need a no-frills coworking space — stable WiFi, power, a few meeting rooms, 24/7 access — at ₹2,500–3,000/month. The demand is real.",
-    category: "services",
-    location_name: "Lohegaon, Pune",
-    lat: 18.5960,
-    lng: 73.9070,
-    price_min: 2500,
-    price_max: 3500,
-    support_count: 93,
-    comment_count: 4,
-    growth_rate: 27,
-    author_id: "user-1",
-    is_anonymous: true,
-    anonymous_name: "North Wolf",
-    anonymous_avatar_svg: ANON_WOLF,
-    status: "active",
-    created_at: "2026-04-18T11:00:00Z",
-    updated_at: "2026-06-19T09:00:00Z",
-    distance_km: 0.5,
-  },
-
-  // ── 10. PUBLIC ─────────────────────────────────────────────────────────────
-  {
-    id: "need-10",
-    title: "South Indian breakfast joint open by 7 AM",
-    description:
-      "Office workers catching early cabs need proper breakfast before 7:30 AM. Most idli-dosa joints open at 8:30 or 9 AM. A small tiffin centre near Lohegaon Chowk opening at 6:30 or 7 AM with fresh idli, vada, dosa and filter coffee would be mobbed every single day. The demand is enormous.",
-    category: "food",
-    location_name: "Lohegaon, Pune",
-    lat: 18.5980,
-    lng: 73.9095,
+      "We want a dedicated organic farmers market every Sunday where local farmers sell directly to consumers. No middlemen, fair prices for both sides. Kharadi has the space — the ground near EON Free Zone is perfect. Chemical-free produce, fresh eggs, honey, millets!",
+    category: "shopping",
+    location_name: "Kharadi, Pune",
+    lat: 18.5512,
+    lng: 73.9445,
     price_min: 40,
-    price_max: 100,
-    support_count: 152,
-    comment_count: 5,
-    growth_rate: 36,
-    author_id: "user-4",
-    status: "active",
-    created_at: "2026-03-22T06:45:00Z",
-    updated_at: "2026-06-26T07:00:00Z",
-    distance_km: 0.4,
-  },
-
-  // ── 11. ANONYMOUS ─────────────────────────────────────────────────────────
-  {
-    id: "need-11",
-    title: "Night pharmacy open past midnight",
-    description:
-      "Medical emergencies don't respect pharmacy hours. After 11 PM there is not a single pharmacy open within 5 km. This has caused real problems for families with young children or elderly relatives. A 24/7 pharmacy — or at minimum one open until 2 AM — is urgently needed in Dhanori or Lohegaon.",
-    category: "healthcare",
-    location_name: "Dhanori, Pune",
-    lat: 18.6115,
-    lng: 73.9010,
-    support_count: 219,
-    comment_count: 5,
-    growth_rate: 52,
-    author_id: "user-3",
-    is_anonymous: true,
-    anonymous_name: "Silent Owl",
-    anonymous_avatar_svg: ANON_OWL,
-    status: "active",
-    created_at: "2026-01-05T02:10:00Z",
-    updated_at: "2026-06-28T01:00:00Z",
-    distance_km: 2.0,
-  },
-
-  // ── 12. PUBLIC ─────────────────────────────────────────────────────────────
-  {
-    id: "need-12",
-    title: "Local Hindi medium school with quality English lab",
-    description:
-      "Many families in this area want quality English education for their kids but can't afford expensive English-medium schools. A Hindi-medium CBSE school with a dedicated English language lab and spoken English programme would be a game-changer for first-generation learners. Fees under ₹15,000/year.",
-    category: "education",
-    location_name: "Dhanori, Pune",
-    lat: 18.6085,
-    lng: 73.9040,
-    price_min: 10000,
-    price_max: 15000,
-    support_count: 108,
+    price_max: 200,
+    support_count: 156,
     comment_count: 4,
-    growth_rate: 23,
-    author_id: "user-1",
-    status: "active",
-    created_at: "2026-02-28T10:00:00Z",
-    updated_at: "2026-06-17T12:00:00Z",
-    distance_km: 2.6,
+    growth_rate: 31,
+    author_id: "user-2",
+    status: "fulfilled",
+    is_anonymous: false,
+    created_at: "2025-10-20T08:00:00Z",
+    updated_at: "2026-05-01T10:00:00Z",
+    distance_km: 5.8,
+    business_stage: 4,
+    entrepreneur_id: "user-2",
   },
 
-  // ── 13. ANONYMOUS ─────────────────────────────────────────────────────────
+  // ── NEED 8 ── ANONYMOUS | Entertainment | Low demand
   {
-    id: "need-13",
-    title: "Crèche & day-care centre for infants (3–18 months)",
+    id: "need-8",
+    title: "Community cinema room for indie films and documentaries",
     description:
-      "Working parents in Viman Nagar are desperate for a trusted, government-registered crèche for infants between 3–18 months. Most day-care centres only take kids from 2 years. Both parents working full-time with a newborn and no family support is a real crisis. Rates under ₹6,000/month with CCTV access for parents.",
-    category: "services",
-    location_name: "Viman Nagar, Pune",
-    lat: 18.5690,
-    lng: 73.9150,
-    price_min: 4000,
-    price_max: 6500,
-    support_count: 163,
-    comment_count: 5,
-    growth_rate: 44,
-    author_id: "user-4",
-    is_anonymous: true,
-    anonymous_name: "Storm Eagle",
-    anonymous_avatar_svg: ANON_FOX,
-    status: "active",
-    created_at: "2026-02-14T09:00:00Z",
-    updated_at: "2026-06-25T11:00:00Z",
-    distance_km: 2.2,
-  },
-
-  // ── 14. PUBLIC ─────────────────────────────────────────────────────────────
-  {
-    id: "need-14",
-    title: "Live music open-mic venue every Friday night",
-    description:
-      "Pune has incredible local musical talent but nowhere affordable to perform. A small venue — 80–120 capacity — that hosts open-mic nights every Friday with no cover charge (or under ₹100) and decent sound equipment would fill up immediately. Local artists, craft beer, good vibes. The city needs this.",
+      "A small community cinema room for indie films, documentaries, and local filmmaker showcases. Think 50 seats, cozy atmosphere, no popcorn markup robbery. Kalyani Nagar has enough young professionals who'd pay Rs 80-120 for a curated screening experience.",
     category: "entertainment",
     location_name: "Kalyani Nagar, Pune",
     lat: 18.5467,
     lng: 73.9034,
-    price_min: 0,
-    price_max: 150,
-    support_count: 87,
-    comment_count: 4,
-    growth_rate: 19,
-    author_id: "user-2",
+    price_min: 80,
+    price_max: 120,
+    support_count: 45,
+    comment_count: 3,
+    growth_rate: 8,
+    author_id: "user-1",
     status: "active",
-    created_at: "2026-05-02T18:00:00Z",
-    updated_at: "2026-06-23T20:00:00Z",
+    is_anonymous: true,
+    anonymous_name: "Cosmic Raven",
+    created_at: "2026-05-15T16:00:00Z",
+    updated_at: "2026-06-08T14:00:00Z",
     distance_km: 7.1,
   },
 
-  // ── 15. ANONYMOUS ─────────────────────────────────────────────────────────
+  // ── NEED 9 ── PUBLIC | Food | Trending | Business Stage 1
   {
-    id: "need-15",
-    title: "BRTS/bus route connecting Lohegaon to Hinjewadi",
+    id: "need-9",
+    title: "Healthy tiffin service for gym-goers and diabetics",
     description:
-      "Thousands of IT employees travel daily from Lohegaon and Dhanori to Hinjewadi Phase 1, 2 & 3. The current route requires two or three bus changes and takes 2+ hours each way. A direct BRTS or express bus service on this corridor would transform the daily commute for at least 15,000 people. PMPML needs to hear this.",
-    category: "government",
-    location_name: "Lohegaon, Pune",
-    lat: 18.5965,
-    lng: 73.9080,
-    support_count: 302,
+      "There is zero healthy tiffin option in Wagholi for people with dietary needs — gym folks needing high protein, or diabetics needing low glycemic meals. Keto, diabetic-friendly, high-protein meal plans delivered by 7 AM and 1 PM. Rs 120-180 per meal. I'd subscribe instantly.",
+    category: "food",
+    location_name: "Wagholi, Pune",
+    lat: 18.5798,
+    lng: 73.9852,
+    price_min: 120,
+    price_max: 180,
+    support_count: 132,
     comment_count: 5,
-    growth_rate: 67,
-    author_id: "user-3",
-    is_anonymous: true,
-    anonymous_name: "Silent Owl",
-    anonymous_avatar_svg: ANON_OWL,
+    growth_rate: 38,
+    author_id: "user-4",
     status: "active",
-    created_at: "2025-11-20T08:00:00Z",
-    updated_at: "2026-06-28T09:00:00Z",
+    is_anonymous: false,
+    created_at: "2026-02-20T06:30:00Z",
+    updated_at: "2026-06-24T08:00:00Z",
+    distance_km: 6.8,
+    business_stage: 1,
+    entrepreneur_id: "user-2",
+  },
+
+  // ── NEED 10 ── ANONYMOUS | Government | Medium demand
+  {
+    id: "need-10",
+    title: "Street lights on Lohegaon-Dhanori road after 10 PM",
+    description:
+      "The stretch between Lohegaon Chowk and Dhanori bridge is completely dark after 10 PM. Two accidents have already happened here this year. Women returning from night shifts are scared. This is a basic civic need — we pay taxes and deserve safe streets.",
+    category: "government",
+    location_name: "Lohegaon-Dhanori, Pune",
+    lat: 18.6015,
+    lng: 73.9201,
+    support_count: 89,
+    comment_count: 4,
+    growth_rate: 20,
+    author_id: "user-5",
+    status: "active",
+    is_anonymous: true,
+    anonymous_name: "Iron Shield",
+    created_at: "2026-03-18T21:00:00Z",
+    updated_at: "2026-06-20T10:00:00Z",
+    distance_km: 1.5,
+  },
+
+  // ── NEED 11 ── PUBLIC | Services | Business Stage 2
+  {
+    id: "need-11",
+    title: "On-demand home cleaning with background-verified staff",
+    description:
+      "We need a trustworthy home cleaning app in Wagholi and Kharadi. Background-verified staff, hourly pricing (Rs 250-350/hr), proper ratings. Current options either cancel last minute or send unverified strangers. Trust is everything when someone enters your home.",
+    category: "services",
+    location_name: "Kharadi, Pune",
+    lat: 18.5521,
+    lng: 73.9456,
+    price_min: 250,
+    price_max: 350,
+    support_count: 73,
+    comment_count: 4,
+    growth_rate: 16,
+    author_id: "user-5",
+    status: "active",
+    is_anonymous: false,
+    created_at: "2026-04-12T11:00:00Z",
+    updated_at: "2026-06-21T13:00:00Z",
+    distance_km: 5.2,
+    business_stage: 2,
+    entrepreneur_id: "user-4",
+  },
+
+  // ── NEED 12 ── ANONYMOUS | Healthcare | High demand
+  {
+    id: "need-12",
+    title: "Mental health counsellor with sliding scale fees",
+    description:
+      "Therapy in Pune costs Rs 1500-3000 per session — completely unaffordable for most young working people. We need a mental health counsellor in Viman Nagar offering sliding scale fees (Rs 200-600 based on income). Online sessions acceptable too. The pandemic broke a lot of us mentally.",
+    category: "healthcare",
+    location_name: "Viman Nagar, Pune",
+    lat: 18.5671,
+    lng: 73.9138,
+    price_min: 200,
+    price_max: 600,
+    support_count: 118,
+    comment_count: 5,
+    growth_rate: 26,
+    author_id: "user-3",
+    status: "active",
+    is_anonymous: true,
+    anonymous_name: "Gentle Storm",
+    created_at: "2026-04-28T09:00:00Z",
+    updated_at: "2026-06-23T10:00:00Z",
+    distance_km: 2.4,
+  },
+
+  // ── NEED 13 ── PUBLIC | Education | Low-Medium
+  {
+    id: "need-13",
+    title: "Spoken English and confidence class for working adults",
+    description:
+      "Many colleagues are technically brilliant but held back in careers because of communication hesitation. We need affordable spoken English and presentation skills classes — evenings or weekends, small batch (15 people max), practical not textbook. Rs 800-1200/month.",
+    category: "education",
+    location_name: "Lohegaon, Pune",
+    lat: 18.5961,
+    lng: 73.9074,
+    price_min: 800,
+    price_max: 1200,
+    support_count: 54,
+    comment_count: 3,
+    growth_rate: 14,
+    author_id: "user-1",
+    status: "active",
+    is_anonymous: false,
+    created_at: "2026-05-02T17:00:00Z",
+    updated_at: "2026-06-17T12:00:00Z",
     distance_km: 0.6,
   },
+
+  // ── NEED 14 ── PUBLIC | Shopping | Medium demand
+  {
+    id: "need-14",
+    title: "Stationery and craft supply store for students and artists",
+    description:
+      "The nearest decent stationery and art supply store is in Camp, 18 km away. Students doing engineering, architecture, design — and hobby artists — desperately need a local store with proper drawing sheets, markers, watercolours, 3D printing supplies.",
+    category: "shopping",
+    location_name: "Viman Nagar, Pune",
+    lat: 18.5688,
+    lng: 73.9155,
+    price_min: 50,
+    price_max: 1000,
+    support_count: 61,
+    comment_count: 3,
+    growth_rate: 11,
+    author_id: "user-5",
+    status: "active",
+    is_anonymous: false,
+    created_at: "2026-05-22T14:00:00Z",
+    updated_at: "2026-06-18T16:00:00Z",
+    distance_km: 2.8,
+  },
+
+  // ── NEED 15 ── ANONYMOUS | Others | Medium demand
+  {
+    id: "need-15",
+    title: "Co-working space with creche facility for working parents",
+    description:
+      "Single parents and couples where both partners work have NO affordable co-working space that also has a safe on-site creche. A space with a supervised play area for kids aged 1-6 while parents work nearby (Rs 3000-5000/month). Koregaon Park has the density — this would fill up in weeks.",
+    category: "others",
+    location_name: "Koregaon Park, Pune",
+    lat: 18.5358,
+    lng: 73.8951,
+    price_min: 3000,
+    price_max: 5000,
+    support_count: 87,
+    comment_count: 4,
+    growth_rate: 24,
+    author_id: "user-4",
+    status: "active",
+    is_anonymous: true,
+    anonymous_name: "Silver Fox",
+    created_at: "2026-05-30T10:00:00Z",
+    updated_at: "2026-06-25T09:00:00Z",
+    distance_km: 4.1,
+  },
 ];
 
-// ─── Comments ─────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────
+// COMMENTS — 45 rich discussions across needs
+// ─────────────────────────────────────────────
 export const MOCK_COMMENTS: Comment[] = [
-  // need-1 — Samosa
-  { id: "c-1-1", need_id: "need-1", user_id: "user-3", content: "YES! I've been craving these since I moved from Bhopal. The ones here are nothing like the real deal. Count me in! 🙏", created_at: "2026-01-16T10:00:00Z" },
-  { id: "c-1-2", need_id: "need-1", user_id: "user-2", content: "My grandmother's recipe is exactly this — thin crust, dry peas filling, and that green chutney with coriander and ginger. I might actually take this on as a business!", created_at: "2026-01-17T14:30:00Z" },
-  { id: "c-1-3", need_id: "need-1", user_id: "user-4", content: "186 supporters already! The demand is undeniable. Someone please make this happen before I fly back to Indore just for samosas 😂", created_at: "2026-06-20T14:00:00Z" },
-  { id: "c-1-4", need_id: "need-1", user_id: "user-1", content: "To anyone considering this — the margins on street food are actually great if you target office crowds at morning snack time. This could be a 1,000-unit-a-day business easily.", created_at: "2026-06-21T09:30:00Z" },
-  { id: "c-1-5", need_id: "need-1", user_id: "user-3", content: "Also please do the hing-flavoured version! That's what makes MP samosas different from everywhere else.", created_at: "2026-06-22T11:00:00Z" },
+  // Need 1 — Samosa (6 comments)
+  { id: "c-1-1", need_id: "need-1", user_id: "user-3", content: "YES! I've been craving these since I moved from Bhopal three years ago. The ones at local chai stalls use frozen filling. Count me in the moment someone opens!", created_at: "2026-01-16T10:00:00Z" },
+  { id: "c-1-2", need_id: "need-1", user_id: "user-2", content: "My grandmother's recipe is literally this — atta pastry, coarse potato filling with fennel seeds, and fresh green chutney with mint and coriander. I might actually take this on as a business. 186 supporters is more than enough validation!", created_at: "2026-01-17T14:30:00Z" },
+  { id: "c-1-3", need_id: "need-1", user_id: "user-5", content: "The evening samosa rush near IT offices would be MASSIVE. There are 3000+ people working within 500m. Even a cart doing 300 pieces a day would be profitable.", created_at: "2026-02-05T18:00:00Z" },
+  { id: "c-1-4", need_id: "need-1", user_id: "user-4", content: "Priya please take this forward! I'll be your first regular customer. Even a cloud kitchen model with delivery would work.", created_at: "2026-03-12T12:00:00Z" },
+  { id: "c-1-5", need_id: "need-1", user_id: "user-1", content: "Update: 186 supporters now! The demand is undeniable. Someone please make this happen! I'd pay Rs 30 happily for the real thing.", created_at: "2026-06-20T14:00:00Z" },
+  { id: "c-1-6", need_id: "need-1", user_id: "user-3", content: "A chai-samosa cart near Lohegaon bus stop would be packed from 5 PM every day. Proven business model, just missing authentic taste here.", created_at: "2026-06-21T08:30:00Z" },
 
-  // need-2 — Laundry
-  { id: "c-2-1", need_id: "need-2", user_id: "user-1", content: "I pay ₹350/kg at the current place and they damage my clothes half the time. Please someone build this!", created_at: "2026-02-12T08:00:00Z" },
-  { id: "c-2-2", need_id: "need-2", user_id: "user-4", content: "Priya has already claimed this — any update on when the service goes live? The pickup routing stage seems like it could be done in a month.", created_at: "2026-06-10T10:00:00Z" },
-  { id: "c-2-3", need_id: "need-2", user_id: "user-2", content: "Hi everyone! I'm actively working on this. Routes are being finalised. Should be live by end of July. Will post updates here! 🙌", created_at: "2026-06-18T09:30:00Z" },
-  { id: "c-2-4", need_id: "need-2", user_id: "user-3", content: "Please also support dry cleaning and ironing-only options. Not everyone needs full wash every time.", created_at: "2026-06-19T15:00:00Z" },
+  // Need 2 — Laundry (5 comments)
+  { id: "c-2-1", need_id: "need-2", user_id: "user-1", content: "I literally sent laundry to my parents in Nagpur last month because nothing here works properly. A 24/7 service would change my life.", created_at: "2026-02-12T09:00:00Z" },
+  { id: "c-2-2", need_id: "need-2", user_id: "user-2", content: "I'm looking into this seriously. Planning pickup routes for Viman Nagar, Lohegaon and Kharadi. Need about Rs 1.5 lakh in equipment to start. Any investors interested, reach out!", created_at: "2026-04-01T11:00:00Z" },
+  { id: "c-2-3", need_id: "need-2", user_id: "user-4", content: "Important feature request: please add dry-cleaning for formal wear. Most services skip this entirely.", created_at: "2026-04-15T15:00:00Z" },
+  { id: "c-2-4", need_id: "need-2", user_id: "user-5", content: "If you offer a monthly unlimited plan (say Rs 999 for up to 10 kg/month), I'll subscribe without hesitation.", created_at: "2026-05-10T10:00:00Z" },
+  { id: "c-2-5", need_id: "need-2", user_id: "user-3", content: "Update from Priya: Equipment has been ordered. Expecting to soft-launch by August! Great news for everyone.", created_at: "2026-06-18T09:00:00Z" },
 
-  // need-3 — Coding bootcamp
-  { id: "c-3-1", need_id: "need-3", user_id: "user-4", content: "My 10-year-old is obsessed with Scratch and Minecraft. A proper course would be amazing. Koregaon Park residents — let's make this happen!", created_at: "2026-03-08T16:00:00Z" },
-  { id: "c-3-2", need_id: "need-3", user_id: "user-1", content: "I'm a senior software engineer and would love to volunteer as a mentor for a few hours on weekends. Anyone building this, reach out!", created_at: "2026-03-15T12:30:00Z" },
-  { id: "c-3-3", need_id: "need-3", user_id: "user-3", content: "This could also be done at a local school facility on weekends. Many schools rent space. That solves the venue problem cheaply.", created_at: "2026-05-01T09:00:00Z" },
-  { id: "c-3-4", need_id: "need-3", user_id: "user-2", content: "I'm evaluating this as a business opportunity. Looking at a franchise model from a Bangalore-based ed-tech brand. More updates coming soon.", created_at: "2026-06-01T14:00:00Z" },
+  // Need 3 — Coding bootcamp (4 comments)
+  { id: "c-3-1", need_id: "need-3", user_id: "user-1", content: "My 10-year-old has been begging to learn game development. Every coding class I've tried just teaches Python syntax with no context. Something project-based would actually stick.", created_at: "2026-03-07T11:00:00Z" },
+  { id: "c-3-2", need_id: "need-3", user_id: "user-5", content: "I'm a software engineer and would genuinely volunteer to co-teach this on Saturdays. Just need someone to handle the admin/business side. Let's connect.", created_at: "2026-03-15T16:00:00Z" },
+  { id: "c-3-3", need_id: "need-3", user_id: "user-4", content: "Scratch, MIT App Inventor, then Python with Pygame — that's the curriculum structure that works for 8-14 age group. Happy to help design the syllabus.", created_at: "2026-04-02T10:00:00Z" },
+  { id: "c-3-4", need_id: "need-3", user_id: "user-2", content: "67 parents have said yes. I know a space in Koregaon Park that's free on weekends. Someone needs to just START — even with 10 kids.", created_at: "2026-05-20T14:00:00Z" },
 
-  // need-4 — Dental clinic
-  { id: "c-4-1", need_id: "need-4", user_id: "user-3", content: "I had a dental emergency at 8:30 PM last month. Had to drive 18 km to find a dentist. This is a genuine crisis.", created_at: "2026-01-30T22:00:00Z" },
-  { id: "c-4-2", need_id: "need-4", user_id: "user-4", content: "Even regular cleaning takes months to book during working hours. Evening slots would completely solve this for most working people.", created_at: "2026-02-05T19:00:00Z" },
-  { id: "c-4-3", need_id: "need-4", user_id: "user-2", content: "Dental clinics have high setup costs (₹8–15L for equipment) but the ROI at evening pricing is excellent. This is viable for an entrepreneur.", created_at: "2026-03-20T10:00:00Z" },
-  { id: "c-4-4", need_id: "need-4", user_id: "user-1", content: "143 supporters! Please someone step up. Even one dentist doing evening shifts out of an existing clinic space would work.", created_at: "2026-06-22T09:00:00Z" },
+  // Need 4 — Dental (4 comments)
+  { id: "c-4-1", need_id: "need-4", user_id: "user-5", content: "I've been putting off a root canal for 8 months because I cannot take a half-day for it. Evening clinic is not a luxury — it's a necessity for working people.", created_at: "2026-01-30T20:00:00Z" },
+  { id: "c-4-2", need_id: "need-4", user_id: "user-3", content: "Any dentists reading this — the market is completely open. 143 people here who will definitely book. I'd pay a slightly higher fee for guaranteed evening slots.", created_at: "2026-02-14T18:30:00Z" },
+  { id: "c-4-3", need_id: "need-4", user_id: "user-4", content: "Dental subscription model — Rs 1500/year covering 2 check-ups, cleaning and emergency consultations. Sustainable for both doctor and patient.", created_at: "2026-03-22T09:00:00Z" },
+  { id: "c-4-4", need_id: "need-4", user_id: "user-2", content: "I've spoken to two dentists about this opportunity. One is interested in opening a satellite clinic here! Will update the community soon. Stay tuned!", created_at: "2026-06-22T11:00:00Z" },
 
-  // need-5 — E-scooter
-  { id: "c-5-1", need_id: "need-5", user_id: "user-1", content: "The airport is 3 km from my place but an Ola/Uber charges ₹120–150 for that short distance. E-scooters at ₹15/km would be a life changer.", created_at: "2025-12-15T08:00:00Z" },
-  { id: "c-5-2", need_id: "need-5", user_id: "user-4", content: "Please also include helmets with each scooter! Safety is non-negotiable. And the docking stations need covered parking.", created_at: "2026-01-10T11:00:00Z" },
-  { id: "c-5-3", need_id: "need-5", user_id: "user-2", content: "Fleet of 20 Yulu-style scooters arriving next week! We're almost ready for the soft launch. Thank you all for the 211 supporters — this is because of you! 🛴🙏", created_at: "2026-06-25T08:00:00Z" },
-  { id: "c-5-4", need_id: "need-5", user_id: "user-3", content: "Incredible news! Will there be student/monthly pass discounts? A lot of college students in this area would benefit massively.", created_at: "2026-06-25T09:30:00Z" },
+  // Need 5 — E-scooter (6 comments)
+  { id: "c-5-1", need_id: "need-5", user_id: "user-1", content: "The auto mafia near the airport entrance charges Rs 120 for a 1.5 km ride. It's robbery. An e-scooter hub right outside Gate 2 of EON would be used by hundreds of people daily.", created_at: "2025-12-12T08:00:00Z" },
+  { id: "c-5-2", need_id: "need-5", user_id: "user-3", content: "I've been using Yulu in Pune city but it's not available in Lohegaon at all. We're clearly in the coverage gap. Any mobility startup reading this — come here!", created_at: "2026-01-05T07:30:00Z" },
+  { id: "c-5-3", need_id: "need-5", user_id: "user-4", content: "Working on this! I have 15 e-scooters from a supplier. The main blocker is the parking permit from Pune Municipal. Application submitted — expected in 6-8 weeks.", created_at: "2026-04-10T11:00:00Z" },
+  { id: "c-5-4", need_id: "need-5", user_id: "user-5", content: "Sneha, please prioritize the Lohegaon-Viman Nagar corridor. That 4 km stretch has the worst last-mile problem in the area.", created_at: "2026-05-01T09:00:00Z" },
+  { id: "c-5-5", need_id: "need-5", user_id: "user-2", content: "211 supporters! This is the most supported need in the area. Sneha you're doing great — let us know if you need community volunteers for launch day.", created_at: "2026-06-10T14:00:00Z" },
+  { id: "c-5-6", need_id: "need-5", user_id: "user-4", content: "Update: Fleet of 20 e-scooters arriving next week! Soft launch planned for July 15th from the Lohegaon Bus Stand point. Follow us for live updates!", created_at: "2026-06-25T08:00:00Z" },
 
-  // need-6 — Mental health (ANONYMOUS)
-  { id: "c-6-1", need_id: "need-6", user_id: "user-1", content: "This is so important. I've been waiting 6 weeks for an appointment at an affordable clinic. Demand way outstrips supply here.", created_at: "2026-02-22T21:00:00Z" },
-  { id: "c-6-2", need_id: "need-6", user_id: "user-3", content: "Online counselling platforms like iCall charge ₹200–400 per session and are actually excellent. Could someone build a local chapter or referral system?", created_at: "2026-03-01T19:30:00Z" },
-  { id: "c-6-3", need_id: "need-6", user_id: "user-4", content: "The stigma makes people reluctant to seek help but affordable access is the first step. Supporting this fully. 128 people agree — that's a clear signal.", created_at: "2026-06-10T10:00:00Z" },
-  { id: "c-6-4", need_id: "need-6", user_id: "user-2", content: "I know two clinical psychologists from Symbiosis who do private practice. Will connect them to this thread. This is doable.", created_at: "2026-06-21T14:00:00Z" },
+  // Need 6 — Badminton (3 comments)
+  { id: "c-6-1", need_id: "need-6", user_id: "user-1", content: "Driving to Kalyani Nagar every Sunday for courts is exhausting. Wagholi has the population to support a dedicated badminton facility easily.", created_at: "2026-04-03T15:00:00Z" },
+  { id: "c-6-2", need_id: "need-6", user_id: "user-5", content: "78 supporters already and it's been live for just 2 days. Squash or table tennis courts alongside would make the business case even stronger.", created_at: "2026-04-04T10:00:00Z" },
+  { id: "c-6-3", need_id: "need-6", user_id: "user-2", content: "A 6-court facility needs about Rs 40-60 lakh investment but breaks even in 18 months at 60% occupancy. The demand here clearly exceeds that threshold.", created_at: "2026-05-15T16:00:00Z" },
 
-  // need-7 — Women's running track (ANONYMOUS)
-  { id: "c-7-1", need_id: "need-7", user_id: "user-4", content: "I stopped running after dark because of harassment. This is a real safety issue, not just a fitness request. 💪", created_at: "2026-03-12T20:00:00Z" },
-  { id: "c-7-2", need_id: "need-7", user_id: "user-1", content: "A women's-only slot from 6–8 AM would also help enormously. Even the Viman Nagar garden doesn't feel safe post-sunset.", created_at: "2026-03-15T07:00:00Z" },
-  { id: "c-7-3", need_id: "need-7", user_id: "user-2", content: "There's a PMC-owned plot near the Viman Nagar water tank that's under-used. Could petition them to convert it. I can draft the letter if people sign on.", created_at: "2026-04-20T11:00:00Z" },
-  { id: "c-7-4", need_id: "need-7", user_id: "user-3", content: "We need to bring this to the local corporator's attention. 174 supporters is enough political weight. Let's organise a petition drive.", created_at: "2026-06-24T09:00:00Z" },
-  { id: "c-7-5", need_id: "need-7", user_id: "user-4", content: "I'll help coordinate the petition! DM me through the app. This is long overdue.", created_at: "2026-06-24T11:30:00Z" },
+  // Need 7 — Farmers market (4 comments)
+  { id: "c-7-1", need_id: "need-7", user_id: "user-1", content: "This actually happened!! Visited last Sunday — 22 farmers, incredible variety of millets, fresh vegetables, and the honey stall was sold out by 9 AM. So proud of this community!", created_at: "2026-05-05T11:00:00Z" },
+  { id: "c-7-2", need_id: "need-7", user_id: "user-5", content: "The millet roti lady at stall 7 is running out every week. She needs to bring double the quantity!", created_at: "2026-05-12T09:30:00Z" },
+  { id: "c-7-3", need_id: "need-7", user_id: "user-3", content: "Suggestion: add a composting counter where people drop kitchen waste and get a discount coupon. Circular economy vibes!", created_at: "2026-05-19T08:00:00Z" },
+  { id: "c-7-4", need_id: "need-7", user_id: "user-4", content: "This is what community-driven business looks like. WishNearby made this happen. More platforms should take notes!", created_at: "2026-06-01T10:00:00Z" },
 
-  // need-8 — Badminton courts
-  { id: "c-8-1", need_id: "need-8", user_id: "user-1", content: "We tried 4 courts in Wagholi last Sunday — all full, no booking system, had to wait 90 minutes. This is ridiculous in 2026.", created_at: "2026-04-05T10:30:00Z" },
-  { id: "c-8-2", need_id: "need-8", user_id: "user-4", content: "Even ₹300–400/hour for a proper indoor court is fine if it's clean and the lights are good. Bad courts are worse than no courts.", created_at: "2026-04-10T15:00:00Z" },
-  { id: "c-8-3", need_id: "need-8", user_id: "user-2", content: "Badminton court setups have decent ROI — roughly ₹8–12L per court and breakeven in 18–24 months at full utilisation. Happy to discuss with anyone interested in building this.", created_at: "2026-06-01T13:00:00Z" },
+  // Need 8 — Cinema (3 comments)
+  { id: "c-8-1", need_id: "need-8", user_id: "user-5", content: "I went to a screening like this in Bengaluru — an 8-seater room showing Satyajit Ray films. Completely sold out every week. Kalyani Nagar has exactly this audience.", created_at: "2026-05-17T19:00:00Z" },
+  { id: "c-8-2", need_id: "need-8", user_id: "user-2", content: "Combine this with a post-screening discussion and serve good chai and snacks. That's the experience people will pay Rs 120 for over Netflix.", created_at: "2026-05-20T21:00:00Z" },
+  { id: "c-8-3", need_id: "need-8", user_id: "user-3", content: "Partner with local filmmakers for premiere events. This builds the creative economy in Pune, not just entertainment.", created_at: "2026-06-01T18:00:00Z" },
 
-  // need-9 — Coworking space (ANONYMOUS)
-  { id: "c-9-1", need_id: "need-9", user_id: "user-4", content: "I've been working from McDonald's for 3 months because I can't afford ₹8,000/month coworking. This is not sustainable for early-stage freelancers.", created_at: "2026-04-20T10:30:00Z" },
-  { id: "c-9-2", need_id: "need-9", user_id: "user-2", content: "The model works — WeWork-lite spaces at ₹2,500/month with 50 members = ₹1.25L MRR. Lohegaon has the demand. Just needs someone to take the plunge.", created_at: "2026-04-25T12:00:00Z" },
-  { id: "c-9-3", need_id: "need-9", user_id: "user-3", content: "Please include a small phone booth for calls! Open-plan spaces are useless for client calls and video meetings.", created_at: "2026-05-15T09:00:00Z" },
-  { id: "c-9-4", need_id: "need-9", user_id: "user-1", content: "93 supporters already — the demand is proven. Someone here should seriously explore converting a large flat or ground floor shop into this.", created_at: "2026-06-19T10:00:00Z" },
+  // Need 9 — Healthy tiffin (5 comments)
+  { id: "c-9-1", need_id: "need-9", user_id: "user-3", content: "Type 2 diabetic here. I track every gram of carbs I eat. There is NOTHING in Wagholi I can safely order. Low GI meals delivered to my door would be life-changing.", created_at: "2026-02-22T07:00:00Z" },
+  { id: "c-9-2", need_id: "need-9", user_id: "user-1", content: "For gym-goers: 40g protein per meal is the benchmark. Achievable with paneer/eggs/legumes. Please partner with a nutritionist to design the menu properly.", created_at: "2026-03-10T13:00:00Z" },
+  { id: "c-9-3", need_id: "need-9", user_id: "user-2", content: "I'm in early planning stage. Looking at a central kitchen in Wagholi, delivery radius of 5 km. Menu will have 3 plans: Diabetic-friendly, High-Protein, and Balanced. First 50 subscribers get 30% off!", created_at: "2026-04-20T11:00:00Z" },
+  { id: "c-9-4", need_id: "need-9", user_id: "user-5", content: "Please include a weekly menu rotation so it doesn't get boring. That's why most tiffin services fail — same dal-rice every day.", created_at: "2026-05-15T09:00:00Z" },
+  { id: "c-9-5", need_id: "need-9", user_id: "user-4", content: "Tiffin trial happening next week! 10 test customers selected. Waitlist open soon on Instagram @healthytiffinwagholi!", created_at: "2026-06-24T08:00:00Z" },
 
-  // need-10 — South Indian breakfast
-  { id: "c-10-1", need_id: "need-10", user_id: "user-3", content: "I skip breakfast entirely because nothing opens before my cab at 7:15 AM. A proper South Indian tiffin at 6:30 AM would change my life.", created_at: "2026-03-24T07:00:00Z" },
-  { id: "c-10-2", need_id: "need-10", user_id: "user-2", content: "Filter coffee alone would be a hit! Instant coffee culture needs to end. This kind of breakfast joint has minimal setup cost and extremely high repeat footfall.", created_at: "2026-03-28T08:30:00Z" },
-  { id: "c-10-3", need_id: "need-10", user_id: "user-1", content: "The owner of the current Darshini near Lohegaon signal has been thinking of expanding. Someone should share this need with him directly!", created_at: "2026-04-10T09:00:00Z" },
-  { id: "c-10-4", need_id: "need-10", user_id: "user-4", content: "Also please do proper set-dosa, uttapam and bisibelebath — not just plain dosa! Authentic menu is what will make people loyal.", created_at: "2026-06-05T08:00:00Z" },
-  { id: "c-10-5", need_id: "need-10", user_id: "user-3", content: "152 supporters in just 3 months. If a business doesn't open here soon I'm going to learn to cook idli myself 😅", created_at: "2026-06-26T07:30:00Z" },
+  // Need 10 — Street lights (4 comments)
+  { id: "c-10-1", need_id: "need-10", user_id: "user-1", content: "I've written to the municipal ward office twice. No response. This needs collective pressure. Can someone draft a petition we can all sign?", created_at: "2026-03-20T22:00:00Z" },
+  { id: "c-10-2", need_id: "need-10", user_id: "user-3", content: "I can help draft the formal petition to the Pune Municipal Corporation. 200+ signatures with voter ID area mentioned and they are legally required to respond within 30 days.", created_at: "2026-03-21T08:00:00Z" },
+  { id: "c-10-3", need_id: "need-10", user_id: "user-4", content: "Shared this on local WhatsApp groups. 50 more neighbors have seen it in 2 hours. The anger about this road is very real.", created_at: "2026-04-01T19:00:00Z" },
+  { id: "c-10-4", need_id: "need-10", user_id: "user-5", content: "The Maharashtra government's 'My Government' portal creates a complaint ticket with a deadline. Let's use that alongside the petition.", created_at: "2026-04-05T11:00:00Z" },
 
-  // need-11 — Night pharmacy (ANONYMOUS)
-  { id: "c-11-1", need_id: "need-11", user_id: "user-1", content: "My toddler had a fever at 1 AM and I couldn't find Calpol anywhere within 8 km. Had to drive to Kalyani Nagar. This is a genuine emergency gap.", created_at: "2026-01-07T01:30:00Z" },
-  { id: "c-11-2", need_id: "need-11", user_id: "user-4", content: "Even one pharmacy with a WhatsApp ordering system and 2 AM delivery would solve 80% of cases. The technology is trivial — it's just willingness.", created_at: "2026-01-15T22:00:00Z" },
-  { id: "c-11-3", need_id: "need-11", user_id: "user-3", content: "Pharmacy margins are decent and the investment is low. I'd love to see an entrepreneur here take this. 219 supporters means guaranteed footfall.", created_at: "2026-03-10T10:00:00Z" },
-  { id: "c-11-4", need_id: "need-11", user_id: "user-2", content: "I've spoken to two pharmacists who are interested. The challenge is the night shift security. Anyone know if PCMC has a night shift subsidy for essential services?", created_at: "2026-06-20T14:00:00Z" },
-  { id: "c-11-5", need_id: "need-11", user_id: "user-1", content: "Let's also raise this with the local MLA's office. 219 votes is a strong case for a late-night essential services licence. I'll draft the letter.", created_at: "2026-06-28T09:00:00Z" },
+  // Need 11 — Home cleaning (4 comments)
+  { id: "c-11-1", need_id: "need-11", user_id: "user-1", content: "Urban Company in Kharadi is a disaster — booked 4 times, cancelled 3 times on the day. We need a local provider with actual accountability.", created_at: "2026-04-14T10:00:00Z" },
+  { id: "c-11-2", need_id: "need-11", user_id: "user-3", content: "Background verification is the key differentiator. Even if it costs slightly more, people will pay for trust when someone enters their home.", created_at: "2026-04-16T14:00:00Z" },
+  { id: "c-11-3", need_id: "need-11", user_id: "user-4", content: "Setting up the verification pipeline — police clearance + local reference check. First 30 cleaners onboarded by July. Soft launch in Kharadi first!", created_at: "2026-05-25T11:00:00Z" },
+  { id: "c-11-4", need_id: "need-11", user_id: "user-2", content: "Add a 'same team every time' option — families hate explaining their home layout to a new person every week. Consistency is the premium product.", created_at: "2026-06-21T13:00:00Z" },
 
-  // need-12 — Hindi-medium school
-  { id: "c-12-1", need_id: "need-12", user_id: "user-3", content: "This is exactly the gap in education equity. Most parents here want quality for their kids but English-only schools are out of reach financially AND linguistically.", created_at: "2026-03-01T09:30:00Z" },
-  { id: "c-12-2", need_id: "need-12", user_id: "user-4", content: "A Spoken English lab with a dedicated IELTS/communication teacher would be transformative for kids from Hindi-medium backgrounds. My sibling missed out on great jobs because of this.", created_at: "2026-03-10T12:00:00Z" },
-  { id: "c-12-3", need_id: "need-12", user_id: "user-2", content: "There are NGOs like Teach For India that can supply trained teachers to partner schools at subsidised rates. This is financeable if the right structure is in place.", created_at: "2026-04-05T11:00:00Z" },
-  { id: "c-12-4", need_id: "need-12", user_id: "user-1", content: "108 supporters — parents here are serious. Even a weekend Spoken English batch as a pilot before a full school would prove the demand.", created_at: "2026-06-17T10:00:00Z" },
+  // Need 12 — Mental health (5 comments)
+  { id: "c-12-1", need_id: "need-12", user_id: "user-3", content: "Mental health support is not a luxury. The fact that it costs more than a day's salary for many people is a public health crisis.", created_at: "2026-04-30T10:00:00Z" },
+  { id: "c-12-2", need_id: "need-12", user_id: "user-5", content: "Online sessions via video call would dramatically expand access. Many people find in-person first sessions very intimidating.", created_at: "2026-05-02T16:00:00Z" },
+  { id: "c-12-3", need_id: "need-12", user_id: "user-1", content: "118 supporters in a month. That number tells a story about how much quiet suffering there is in this community. Any therapists reading this — we need you here.", created_at: "2026-05-28T09:00:00Z" },
+  { id: "c-12-4", need_id: "need-12", user_id: "user-4", content: "Looking into partnering with psychology graduate students doing supervised hours — legally qualified and much lower cost. Win-win for both sides.", created_at: "2026-06-05T11:00:00Z" },
+  { id: "c-12-5", need_id: "need-12", user_id: "user-2", content: "Some NIMHANS-affiliated NGOs provide free counselling in Pune. Will post the contact list soon for anyone who needs immediate help.", created_at: "2026-06-23T10:00:00Z" },
 
-  // need-13 — Crèche (ANONYMOUS)
-  { id: "c-13-1", need_id: "need-13", user_id: "user-1", content: "My wife and I nearly had to quit our jobs when our daughter was born because we couldn't find a crèche for a 4-month-old. This need is absolutely real.", created_at: "2026-02-16T21:00:00Z" },
-  { id: "c-13-2", need_id: "need-13", user_id: "user-3", content: "Government Aanganwadis exist but they're overcrowded and not equipped for infants under 1 year. A private crèche with trained caregivers and CCTV is the only real option.", created_at: "2026-02-20T10:00:00Z" },
-  { id: "c-13-3", need_id: "need-13", user_id: "user-4", content: "If this service also offered pickup from nearby housing societies, I'd pay ₹7,000/month without a second thought. The convenience premium is worth it.", created_at: "2026-03-15T08:30:00Z" },
-  { id: "c-13-4", need_id: "need-13", user_id: "user-2", content: "163 supporters — this is one of the highest-demand needs in the area. I'm exploring a micro-crèche franchise model. Would any parents be interested in a survey call?", created_at: "2026-06-25T12:00:00Z" },
-  { id: "c-13-5", need_id: "need-13", user_id: "user-1", content: "Please do include emergency contact and live CCTV access on a parent app. That's the trust layer that will make people actually sign up.", created_at: "2026-06-25T14:00:00Z" },
+  // Need 13 — Spoken English (3 comments)
+  { id: "c-13-1", need_id: "need-13", user_id: "user-3", content: "My colleague got passed over for a promotion despite better technical skills, purely because of presentation confidence. This is real. This matters.", created_at: "2026-05-05T18:00:00Z" },
+  { id: "c-13-2", need_id: "need-13", user_id: "user-5", content: "Small batch is key — group classes of 30 people make it impossible to practice speaking. 12-15 max, with regular mock presentations.", created_at: "2026-05-10T11:00:00Z" },
+  { id: "c-13-3", need_id: "need-13", user_id: "user-4", content: "I've run corporate communication training before. If someone organizes the venue, I'm open to piloting a 4-week batch at affordable rates. DM me.", created_at: "2026-06-17T12:00:00Z" },
 
-  // need-14 — Open-mic venue
-  { id: "c-14-1", need_id: "need-14", user_id: "user-4", content: "I've been playing guitar for 6 years and have never once performed in public because there's nowhere affordable to do so. This would be life-changing for local musicians.", created_at: "2026-05-04T19:30:00Z" },
-  { id: "c-14-2", need_id: "need-14", user_id: "user-1", content: "Even a small bar or café that dedicates Friday nights to open-mic — no special venue needed! The atmosphere and regulars will build themselves.", created_at: "2026-05-10T20:00:00Z" },
-  { id: "c-14-3", need_id: "need-14", user_id: "user-3", content: "Rantara in Koregaon Park used to do this pre-COVID and it was always packed. There's proven demand — someone just needs to revive it.", created_at: "2026-05-20T18:00:00Z" },
-  { id: "c-14-4", need_id: "need-14", user_id: "user-2", content: "The economics work with a ₹200 cover + drinks margin. Kalyani Nagar has the demographics for this. I'm scouting a 100-seat space currently.", created_at: "2026-06-10T12:00:00Z" },
+  // Need 14 — Stationery store (3 comments)
+  { id: "c-14-1", need_id: "need-14", user_id: "user-1", content: "Architecture student here. I travel 40 minutes each way to buy tracing paper and Staedtler markers. A store here would save me hours every week.", created_at: "2026-05-24T17:00:00Z" },
+  { id: "c-14-2", need_id: "need-14", user_id: "user-3", content: "Also include Kindle-compatible pens, planners, and journaling supplies — there's a huge stationery enthusiast community that buys online because there's no local option.", created_at: "2026-05-25T14:00:00Z" },
+  { id: "c-14-3", need_id: "need-14", user_id: "user-2", content: "Low capital to start — Rs 3-5 lakh for a 200 sq ft shop with good inventory. The closest competition is genuinely 15+ km away. Margin on stationery is excellent.", created_at: "2026-06-18T16:00:00Z" },
 
-  // need-15 — BRTS Lohegaon–Hinjewadi (ANONYMOUS)
-  { id: "c-15-1", need_id: "need-15", user_id: "user-4", content: "I spend ₹120/day on cabs to Hinjewadi. That's ₹3,000+ a month, purely on commute. A direct bus at ₹35–50 would save me ₹25,000 a year.", created_at: "2025-11-25T08:00:00Z" },
-  { id: "c-15-2", need_id: "need-15", user_id: "user-1", content: "PMPML route 150 exists but goes via Hadapsar adding 45 minutes. A Lohegaon–Wakad–Hinjewadi express route is all we're asking for.", created_at: "2025-12-10T09:00:00Z" },
-  { id: "c-15-3", need_id: "need-15", user_id: "user-3", content: "IT park residents should collectively write to Divisional Commissioner. 302 signatures is serious — this is PMPML's job and we should demand it loudly.", created_at: "2026-02-01T11:00:00Z" },
-  { id: "c-15-4", need_id: "need-15", user_id: "user-2", content: "I know someone at PCMC planning division. Sharing this need with them. Also check the PMPML suggestion portal — they do actually respond to volume.", created_at: "2026-04-10T14:00:00Z" },
-  { id: "c-15-5", need_id: "need-15", user_id: "user-4", content: "302 supporters and counting! Can we coordinate a representation to the local MLA? This needs political pressure not just online petitions.", created_at: "2026-06-28T10:00:00Z" },
+  // Need 15 — Co-working creche (4 comments)
+  { id: "c-15-1", need_id: "need-15", user_id: "user-1", content: "As a single parent with a 3-year-old, I would cry with gratitude if this existed. Right now my options are: expensive crèche far away, or no career. This fills a massive gap.", created_at: "2026-06-01T11:00:00Z" },
+  { id: "c-15-2", need_id: "need-15", user_id: "user-3", content: "Both parents working remotely — we've been looking for exactly this for 8 months. Every co-working space either bans kids or has zero supervision.", created_at: "2026-06-03T14:00:00Z" },
+  { id: "c-15-3", need_id: "need-15", user_id: "user-5", content: "The crèche needs to be Montessori-inspired — not a babysitting jail. Kids learn, parents work, everyone wins. Koregaon Park demographic will absolutely pay for this.", created_at: "2026-06-15T10:00:00Z" },
+  { id: "c-15-4", need_id: "need-15", user_id: "user-2", content: "87 supporters in under a month! Doing a feasibility study for this. Koregaon Park has two spaces that could work. Anyone with early childcare certification — let's talk.", created_at: "2026-06-25T09:00:00Z" },
 ];
 
+// ─────────────────────────────────────────────
+// NOTIFICATIONS
+// ─────────────────────────────────────────────
 export const MOCK_NOTIFICATIONS: Notification[] = [
-  {
-    id: "notif-1",
-    user_id: "user-1",
-    type: "support",
-    title: "🎉 New supporters!",
-    message: "12 people supported your samosa need today — you're trending!",
-    need_id: "need-1",
-    read: false,
-    created_at: "2026-06-27T08:00:00Z",
-  },
-  {
-    id: "notif-2",
-    user_id: "user-1",
-    type: "comment",
-    title: "💬 New comment",
-    message: "Priya Patel commented on your samosa need",
-    need_id: "need-1",
-    read: false,
-    created_at: "2026-06-26T16:00:00Z",
-  },
-  {
-    id: "notif-3",
-    user_id: "user-1",
-    type: "business_claim",
-    title: "🚀 Entrepreneur interested!",
-    message: "Priya Patel is planning to open a laundry service based on your need",
-    need_id: "need-2",
-    read: false,
-    created_at: "2026-06-20T10:00:00Z",
-  },
-  {
-    id: "notif-4",
-    user_id: "user-1",
-    type: "business_open",
-    title: "✅ Need fulfilled!",
-    message: "The e-scooter hub is launching soon in Lohegaon — you helped make this happen!",
-    need_id: "need-5",
-    read: true,
-    created_at: "2026-06-25T08:00:00Z",
-  },
-  {
-    id: "notif-5",
-    user_id: "user-1",
-    type: "weekly_update",
-    title: "📍 Weekly community digest",
-    message: "5 new needs in Lohegaon this week. 2 businesses in progress. 302 people want a direct bus to Hinjewadi!",
-    read: true,
-    created_at: "2026-06-23T09:00:00Z",
-  },
+  { id: "notif-1", user_id: "user-1", type: "support", title: "New supporters!", message: "12 more people supported your samosa need today", need_id: "need-1", read: false, created_at: "2026-06-27T08:00:00Z" },
+  { id: "notif-2", user_id: "user-1", type: "comment", title: "New comment on your need", message: "Priya Patel commented on your samosa need", need_id: "need-1", read: false, created_at: "2026-06-26T16:00:00Z" },
+  { id: "notif-3", user_id: "user-1", type: "business_open", title: "Business opened nearby!", message: "Organic farmers market is now fully operational in Kharadi", need_id: "need-7", read: true, created_at: "2026-05-01T10:00:00Z" },
+  { id: "notif-4", user_id: "user-1", type: "weekly_update", title: "Weekly community update", message: "7 new needs in Lohegaon this week. 2 businesses in progress!", read: true, created_at: "2026-06-23T09:00:00Z" },
+  { id: "notif-5", user_id: "user-1", type: "business_claim", title: "Entrepreneur claimed your need!", message: "Someone is working on bringing a dental clinic to Lohegaon", need_id: "need-4", read: false, created_at: "2026-06-22T11:00:00Z" },
 ];
 
+// ─────────────────────────────────────────────
+// BUSINESS CLAIMS
+// ─────────────────────────────────────────────
 export const MOCK_BUSINESS_CLAIMS: BusinessClaim[] = [
-  {
-    id: "claim-1",
-    need_id: "need-2",
-    entrepreneur_id: "user-2",
-    stage: 2,
-    estimated_investment: 150000,
-    notes: "Setting up pickup routes, folding equipment and hiring 3 part-time staff. App integration underway.",
-    created_at: "2026-04-01T10:00:00Z",
-    updated_at: "2026-06-18T09:00:00Z",
-  },
-  {
-    id: "claim-2",
-    need_id: "need-5",
-    entrepreneur_id: "user-2",
-    stage: 3,
-    estimated_investment: 500000,
-    notes: "Fleet of 20 Yulu Pro e-scooters arriving next week. Docking stations at 3 locations confirmed. App soft launch in 2 weeks.",
-    created_at: "2026-03-15T10:00:00Z",
-    updated_at: "2026-06-25T08:00:00Z",
-  },
+  { id: "claim-1", need_id: "need-2", entrepreneur_id: "user-2", stage: 2, estimated_investment: 150000, notes: "Setting up pickup routes and hiring 3 delivery staff. Equipment ordered from Pune Industrial Estate.", created_at: "2026-04-01T10:00:00Z", updated_at: "2026-06-18T09:00:00Z" },
+  { id: "claim-2", need_id: "need-5", entrepreneur_id: "user-4", stage: 3, estimated_investment: 500000, notes: "Fleet of 20 e-scooters arriving. Municipal parking permit approved. Charging stations installed at 3 hubs.", created_at: "2026-03-15T10:00:00Z", updated_at: "2026-06-25T08:00:00Z" },
+  { id: "claim-3", need_id: "need-9", entrepreneur_id: "user-2", stage: 1, estimated_investment: 80000, notes: "Menu design with certified nutritionist complete. Trial batch of 10 customers running this week.", created_at: "2026-05-01T10:00:00Z", updated_at: "2026-06-24T08:00:00Z" },
+  { id: "claim-4", need_id: "need-11", entrepreneur_id: "user-4", stage: 2, estimated_investment: 200000, notes: "30 background-verified cleaners onboarded. App in final testing. Kharadi soft-launch planned for July.", created_at: "2026-05-20T10:00:00Z", updated_at: "2026-06-21T13:00:00Z" },
+  { id: "claim-5", need_id: "need-7", entrepreneur_id: "user-2", stage: 4, estimated_investment: 120000, notes: "Market fully operational every Sunday, 7 AM to 12 PM. 22+ farmers onboarded. 400+ weekly shoppers.", created_at: "2025-12-01T10:00:00Z", updated_at: "2026-05-01T10:00:00Z" },
 ];
 
 export const CURRENT_USER_ID = "user-1";
