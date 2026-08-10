@@ -45,6 +45,9 @@ export const metadata: Metadata = {
     description: "Discover real local community demand.",
   },
   robots: { index: true, follow: true },
+  other: {
+    "strix-verification": "strix-verify-be194d7a29fed9f57a753933b480be14",
+  },
 };
 
 export const viewport: Viewport = {
