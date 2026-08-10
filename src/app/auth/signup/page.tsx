@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { MailCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +19,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [emailPending, setEmailPending] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -31,10 +33,12 @@ export default function SignupPage() {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const success = await signUp(name, email, password);
-    if (success) {
+    const result = await signUp(name, email, password);
+    if (result === "confirmed") {
       toast.success("Account created! Welcome to WishNearby.");
       window.location.href = "/onboarding";
+    } else if (result === "pending") {
+      setEmailPending(true);
     }
     setLoading(false);
   };
@@ -46,6 +50,42 @@ export default function SignupPage() {
       setLoading(false);
     }
   };
+
+  // Show email confirmation pending UI
+  if (emailPending) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6 bg-mesh">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full max-w-md"
+        >
+          <Card className="p-8 sm:p-10 shadow-float border-border/60 text-center space-y-5">
+            <div className="h-14 w-14 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto">
+              <MailCheck className="h-7 w-7" />
+            </div>
+            <h1 className="text-2xl font-bold tracking-tight">Check your email</h1>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              We&apos;ve sent a verification link to <strong className="text-foreground">{email}</strong>.
+              Please click the link in the email to confirm your account, then come back and sign in.
+            </p>
+            <Button
+              variant="primary"
+              className="w-full"
+              size="lg"
+              onClick={() => { window.location.href = "/auth/login"; }}
+            >
+              Go to Sign In
+            </Button>
+            <p className="text-xs text-muted-foreground">
+              Didn&apos;t receive it? Check your spam folder or try signing up again.
+            </p>
+          </Card>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-mesh">

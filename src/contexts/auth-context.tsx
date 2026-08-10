@@ -11,12 +11,15 @@ import {
 } from "@/lib/anonymous-identities";
 import { toast } from "sonner";
 
+/** signUp resolves to 'confirmed' (session ready), 'pending' (email confirmation needed), or false (error). */
+type SignUpResult = "confirmed" | "pending" | false;
+
 interface AuthContextValue {
   user: User | null;
   loading: boolean;
   isSupabase: boolean;
   signIn: (email: string, password: string) => Promise<boolean>;
-  signUp: (name: string, email: string, password: string) => Promise<boolean>;
+  signUp: (name: string, email: string, password: string) => Promise<SignUpResult>;
   signInWithGoogle: () => Promise<boolean>;
   signOut: () => Promise<void>;
   updateProfile: (updates: Partial<User>) => Promise<boolean>;
@@ -134,7 +137,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (isSupabase && supabase) {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
-        toast.error(error.message);
+        if (process.env.NODE_ENV === "development") {
+          console.error("[WishNearby] signIn error:", { message: error.message, status: error.status, code: (error as any).code });
+        }
+        // Supabase returns "Email not confirmed" or "Invalid login credentials" for unconfirmed emails
+        const msg = error.message.toLowerCase();
+        if (msg.includes("email not confirmed") || (msg.includes("invalid") && error.status === 400)) {
+          toast.error("Please confirm your email before signing in. Check your inbox for a verification link.");
+        } else {
+          toast.error(error.message);
+        }
         setLoading(false);
         return false;
       }
@@ -186,7 +198,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signUp = async (name: string, email: string, password: string): Promise<boolean> => {
+  const signUp = async (name: string, email: string, password: string): Promise<SignUpResult> => {
     setLoading(true);
     if (isSupabase && supabase) {
       const { data, error } = await supabase.auth.signUp({
@@ -198,14 +210,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
 
       if (error) {
+        if (process.env.NODE_ENV === "development") {
+          console.error("[WishNearby] signUp error:", { message: error.message, status: error.status, code: (error as any).code });
+        }
         toast.error(error.message);
         setLoading(false);
         return false;
       }
 
-      if (data.user) {
-        // Note: The trigger on_auth_user_created automatically handles profile row creation in 'profiles'.
+      // Determine if email confirmation is required.
+      // When confirmation is enabled: data.user exists but data.session is null.
+      // When confirmation is disabled: both data.user and data.session exist.
+      const emailConfirmationPending = data.user && !data.session;
 
+      if (emailConfirmationPending) {
+        // Do NOT set user state or redirect to onboarding — the user has no session yet.
+        setLoading(false);
+        return "pending";
+      }
+
+      if (data.user && data.session) {
+        // Session is immediately available (email confirmation disabled).
+        // The trigger on_auth_user_created automatically creates the profile row.
         setUser({
           id: data.user.id,
           email,
@@ -215,9 +241,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           is_admin: false,
           created_at: new Date().toISOString(),
         });
+        setLoading(false);
+        return "confirmed";
       }
+
       setLoading(false);
-      return true;
+      return false;
     } else {
       // Mock Sign Up logic
       await new Promise((r) => setTimeout(r, 600));
@@ -248,7 +277,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem("wishnearby-onboarding-complete", "false");
       
       setLoading(false);
-      return true;
+      return "confirmed";
     }
   };
 
@@ -318,6 +347,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const nextUser = { ...user, ...updates };
 
     if (isSupabase && supabase) {
+      // Verify we have an active session before attempting DB writes.
+      // Without a session, auth.uid() is null and RLS will block the operation.
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        if (process.env.NODE_ENV === "development") {
+          console.error("[WishNearby] updateProfile: no active session — RLS will block this write.");
+        }
+        toast.error("Please sign in again before updating your profile.");
+        return false;
+      }
+
       const dbUpdates: Record<string, unknown> = {};
       if (updates.full_name !== undefined) dbUpdates.full_name = updates.full_name;
       if (updates.avatar_style !== undefined) dbUpdates.avatar_style = updates.avatar_style;
@@ -329,16 +369,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (updates.anonymous_username !== undefined) dbUpdates.anonymous_username = updates.anonymous_username;
       if (updates.anonymous_avatar_svg !== undefined) dbUpdates.anonymous_avatar = updates.anonymous_avatar_svg;
 
+      // Use update (not upsert) since the profile row is created by the on_auth_user_created trigger.
+      // This avoids a race condition where upsert could try to INSERT before the trigger finishes.
       const { error } = await supabase
         .from("profiles")
-        .upsert({
-          id: user.id,
-          email: user.email,
-          ...dbUpdates,
-        });
+        .update(dbUpdates)
+        .eq("id", user.id);
 
       if (error) {
-        toast.error("Failed to update profile in database");
+        if (process.env.NODE_ENV === "development") {
+          console.error("[WishNearby] updateProfile error:", { message: error.message, code: error.code, details: error.details, hint: error.hint });
+        }
+        toast.error(`Failed to update profile: ${error.message}`);
         return false;
       }
     } else {
