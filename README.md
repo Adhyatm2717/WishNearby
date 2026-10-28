@@ -2,7 +2,9 @@
 
 **From "I wish…" to "It exists."**
 
-WishNearby (formerly *Demandly*) is an early-stage, open-source Progressive Web App that makes unmet local needs visible. Residents post what their neighbourhood is missing, such as a quiet study library, a nearby diagnostics centre or affordable meals, and neighbours add their support with one tap. Entrepreneurs can then see where real, community-backed demand exists before they invest.
+🌐 **Live site: [wishnearby.tech](https://wishnearby.tech/)**
+
+WishNearby (formerly *Demandly*) is an early-stage, open-source, community-first Progressive Web App that makes unmet local needs visible. Residents post what their neighbourhood is missing, such as a quiet study library, a nearby diagnostics centre or affordable meals, and neighbours add their support with one tap. Entrepreneurs can then see where real, community-backed demand exists before they invest.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 ![Status: Early stage](https://img.shields.io/badge/status-early--stage-orange)
@@ -13,7 +15,7 @@ WishNearby (formerly *Demandly*) is an early-stage, open-source Progressive Web 
 ![WishNearby demo](docs/demo.gif)
 -->
 
-> **Status:** Early-stage and maintained by a single developer. The app runs on mock data (localStorage) by default, and Supabase is optional. Security hardening, automated tests and scalability work are in progress and have **not** been independently verified. See the [Roadmap](#-roadmap).
+> **Status:** Early-stage and maintained by a single developer. The app is deployed at [wishnearby.tech](https://wishnearby.tech/). Locally it runs on mock data (localStorage) by default, and Supabase is optional. Security hardening, automated tests and scalability work are in progress and have **not** been independently verified. See the [Roadmap](#-roadmap).
 
 ---
 
@@ -157,7 +159,7 @@ Look for issues labelled **`good first issue`** to get started. Please be respec
 
 ## 💬 Business Model (Proposed)
 
-Sharing needs and "Count Me In" are free for residents and will stay free. WishNearby does not take commissions. Paid insights or location-based demand reports for entrepreneurs are a **proposed** future model and have not been validated. The core platform in this repository is open source.
+Sharing needs and "Count Me In" are free for residents and will stay free. WishNearby is not a marketplace and takes no commissions. Paid insights or location-based demand reports for entrepreneurs are a **proposed** future model and have not been validated. The core platform in this repository is open source.
 
 ---
 
@@ -167,4 +169,4 @@ Released under the [MIT License](LICENSE).
 
 ---
 
-<p align="center">Built to make local needs visible. 💚</p>
+<p align="center">Built to make local needs visible. 💚<br><a href="https://wishnearby.tech/">wishnearby.tech</a></p>
